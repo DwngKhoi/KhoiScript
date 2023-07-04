@@ -370,7 +370,7 @@ end
 --------- LIBRARY
 	
 	local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
-	local Window = OrionLib:MakeWindow({Name = "Lùn Bú Lù", HidePremium = true, SaveConfig = false, ConfigFolder = "KhoiHubPJ"})
+	local Window = OrionLib:MakeWindow({Name = "Ditmemaythksucvathocditmemaychocaihacknhuconcacsuacc", HidePremium = true, SaveConfig = false, ConfigFolder = "KhoiHubPJ"})
 local HttpService = game:GetService("HttpService")
 local WebhookURL = "" 
 	local MainTab = Window:MakeTab({
@@ -674,7 +674,7 @@ local textbox = FarmSection:AddTextbox({
 
 	FarmSection:AddToggle({
 		Name = "Auto Collect Chest (DOES NOT Removes Chest After Collect)",
-		Default = true,
+		Default = false,
         Save = true,
         Flag = "auto_collect_chest",
 		Callback = function(value)
@@ -1644,7 +1644,7 @@ end)
 
     GodMode:AddToggle({
         Name = "God Mode [Sound 50+]",
-        Default = true,
+        Default = false,
         Save = true,
         Flag = "Sound_GodMode",
         Callback = function(state)
