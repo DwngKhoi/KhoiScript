@@ -674,7 +674,7 @@ local textbox = FarmSection:AddTextbox({
 
 	FarmSection:AddToggle({
 		Name = "Auto Collect Chest (DOES NOT Removes Chest After Collect)",
-		Default = false,
+		Default = true,
         Save = true,
         Flag = "auto_collect_chest",
 		Callback = function(value)
@@ -1644,7 +1644,7 @@ end)
 
     GodMode:AddToggle({
         Name = "God Mode [Sound 50+]",
-        Default = false,
+        Default = true,
         Save = true,
         Flag = "Sound_GodMode",
         Callback = function(state)
@@ -2154,7 +2154,7 @@ local ModesSection = MiscTab:AddSection({
 
     ModesSection:AddToggle({
         Name = "War Drums Mode [All Races]",
-        Default = false,
+        Default = true,
         Callback = function(Value)
             getgenv().infWD = Value
     while getgenv().infWD do 
