@@ -641,7 +641,31 @@ function KLib:MakeWindow(WindowConfig)
 	end	
 
 	MakeDraggable(DragPoint, MainWindow)
+	local ScreenGui1 = Instance.new("ScreenGui")
+	local ImageButton1 = Instance.new("ImageButton")
+	local UICorner = Instance.new("UICorner")
+	local UIGradient = Instance.new("UIGradient")
+	local UIStroke = Instance.new("UIStroke")
+	ScreenGui1.Name = "ImageButton"
+	ScreenGui1.Parent = game.CoreGui
+	ScreenGui1.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
+	ImageButton1.Parent = ScreenGui1
+	ImageButton1.BackgroundColor3 = Color3.fromRGB(0, 239, 5)
+	ImageButton1.BorderSizePixel = 0
+	ImageButton1.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
+	ImageButton1.Size = UDim2.new(0, 50, 0, 50)
+	ImageButton1.Draggable = true
+	ImageButton1.Image = "rbxassetid://15815733731"
+	ImageButton1.MouseButton1Down:connect(function()
+		if UIHidden then
+			MainWindow.Visible = true
+			UIHidden = false
+		else 
+			MainWindow.Visible = false
+			UIHidden = true
+		end
+	end)
 	AddConnection(CloseBtn.MouseButton1Up, function()
 		MainWindow.Visible = false
 		UIHidden = true
