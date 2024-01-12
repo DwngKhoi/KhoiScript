@@ -472,9 +472,13 @@ function OrionLib:MakeWindow(WindowConfig)
 
 	WindowConfig = WindowConfig or {}
 	WindowConfig.Name = WindowConfig.Name or "MrKhoi | dsc.gg/mrkhoi"
-	WindowConfig.ConfigFolder = WindowConfig.ConfigFolder "MrKhoi"
+	WindowConfig.ConfigFolder = WindowConfig.ConfigFolder or "MrKhoi"
 	WindowConfig.SaveConfig = WindowConfig.SaveConfig or false
 	WindowConfig.HidePremium = WindowConfig.HidePremium or false
+	WindowConfig.CloseCallback = WindowConfig.CloseCallback or function() end
+	WindowConfig.ShowIcon = WindowConfig.ShowIcon or false
+	WindowConfig.Icon = WindowConfig.Icon or "rbxassetid://8834748103"
+	MainWindow.Visible = true
 	OrionLib.Folder = WindowConfig.ConfigFolder
 	OrionLib.SaveCfg = WindowConfig.SaveConfig
 
@@ -644,19 +648,15 @@ function OrionLib:MakeWindow(WindowConfig)
 		UIHidden = true
 		OrionLib:MakeNotification({
 			Name = "Interface Hidden",
-			Content = "Tap LeftControl to reopen the interface",
+			Content = "Tap RightShift to reopen the interface",
 			Time = 5
 		})
 		WindowConfig.CloseCallback()
 	end)
 
 	AddConnection(UserInputService.InputBegan, function(Input)
-		if Input.KeyCode == Enum.KeyCode.LeftControl and UIHidden then
+		if Input.KeyCode == Enum.KeyCode.RightShift and UIHidden then
 			MainWindow.Visible = true
-		end
-		else if Input.KeyCode == Enum.KeyCode.LeftControl then
-			MainWindow.Visible = false
-			UIHidden = false
 		end
 	end)
 
@@ -679,6 +679,7 @@ function OrionLib:MakeWindow(WindowConfig)
 		end
 		Minimized = not Minimized    
 	end)
+
 
 	local TabFunction = {}
 	function TabFunction:MakeTab(TabConfig)
@@ -1669,51 +1670,6 @@ function OrionLib:MakeWindow(WindowConfig)
 		end
 		return ElementFunction   
 	end  
-	
-	--if writefile and isfile then
-	--	if not isfile("NewLibraryNotification1.txt") then
-	--		local http_req = (syn and syn.request) or (http and http.request) or http_request
-	--		if http_req then
-	--			http_req({
-	--				Url = 'http://127.0.0.1:6463/rpc?v=1',
-	--				Method = 'POST',
-	--				Headers = {
-	--					['Content-Type'] = 'application/json',
-	--					Origin = 'https://discord.com'
-	--				},
-	--				Body = HttpService:JSONEncode({
-	--					cmd = 'INVITE_BROWSER',
-	--					nonce = HttpService:GenerateGUID(false),
-	--					args = {code = 'sirius'}
-	--				})
-	--			})
-	--		end
-	--		OrionLib:MakeNotification({
-	--			Name = "UI Library Available",
-	--			Content = "New UI Library Available - Joining Discord (#announcements)",
-	--			Time = 8
-	--		})
-	--		spawn(function()
-	--			local UI = game:GetObjects("rbxassetid://11403719739")[1]
-
-	--			if gethui then
-	--				UI.Parent = gethui()
-	--			elseif syn.protect_gui then
-	--				syn.protect_gui(UI)
-	--				UI.Parent = game.CoreGui
-	--			else
-	--				UI.Parent = game.CoreGui
-	--			end
-
-	--			wait(11)
-
-	--			UI:Destroy()
-	--		end)
-	--		writefile("NewLibraryNotification1.txt","The value for the notification having been sent to you.")
-	--	end
-	--end
-	
-
 	
 	return TabFunction
 end   
