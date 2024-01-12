@@ -199,7 +199,7 @@ UIStroke.Thickness = 1.5
 UIStroke.Parent = ImageButton1
 UIGradient.Color = ColorSequence.new{
 	ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 132, 255)),
-	ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 0, 0))
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(105, 105, 105))
 }
 UIGradient.Parent = UIStroke
 
@@ -295,7 +295,7 @@ function Update:Window(text,logo,keybind)
     local uihide = false
     local abc = false
     local currentpage = ""
-    local keybind = keybind or Enum.KeyCode.RightControl
+    local keybind = keybind or Enum.KeyCode.LeftControl
     local yoo = string.gsub(tostring(keybind),"Enum.KeyCode.","")
 
     local MrKhoiUI = Instance.new("ScreenGui")
@@ -319,7 +319,7 @@ function Update:Window(text,logo,keybind)
     BtnStroke.Name = "BtnStroke"
     BtnStroke.Parent = Main
     BtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-    BtnStroke.Color = Color3.fromRGB(255, 0, 0)
+    BtnStroke.Color = Color3.fromRGB(105, 105, 105)
     BtnStroke.LineJoinMode = Enum.LineJoinMode.Round
     BtnStroke.Thickness = 1
     BtnStroke.Transparency = 0
@@ -439,7 +439,7 @@ function Update:Window(text,logo,keybind)
     ScrollTab.Name = "ScrollTab"
     ScrollTab.Parent = Tab
     ScrollTab.Active = true
-    ScrollTab.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+    ScrollTab.BackgroundColor3 = Color3.fromRGB(105, 105, 105)
     ScrollTab.BackgroundTransparency = 1.000
     ScrollTab.Size = UDim2.new(0, 133, 0, 203)
     ScrollTab.CanvasSize = UDim2.new(0, 0, 0, 0)
@@ -497,7 +497,7 @@ function Update:Window(text,logo,keybind)
 
 
     UserInputService.InputBegan:Connect(function(input)
-        if input.KeyCode == Enum.KeyCode.RightControl then
+        if input.KeyCode == Enum.KeyCode.LeftControl then
             if uihide == false then
                 uihide = true
                 Main:TweenSize(UDim2.new(0, 0, 0, 0),"In","Quad",0.4,true)
@@ -553,7 +553,7 @@ function Update:Window(text,logo,keybind)
         BtnStroke.Name = "BtnStroke"
         BtnStroke.Parent = TabButton
         BtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-        BtnStroke.Color = Color3.fromRGB(255, 0, 0)
+        BtnStroke.Color = Color3.fromRGB(105, 105, 105)
         BtnStroke.LineJoinMode = Enum.LineJoinMode.Round
         BtnStroke.Thickness = 1
         BtnStroke.Transparency = 0
@@ -654,7 +654,7 @@ function Update:Window(text,logo,keybind)
 
         NotificationHold.Name = "NotificationHold"
         NotificationHold.Parent = Main
-        NotificationHold.BackgroundColor3 = Color3.new(255, 0, 0)
+        NotificationHold.BackgroundColor3 = Color3.new(105, 105, 105)
         NotificationHold.BackgroundTransparency = 1
         NotificationHold.BorderSizePixel = 0
         NotificationHold.Size = UDim2.new(0, 589, 0, 378)
@@ -732,7 +732,7 @@ function Update:Window(text,logo,keybind)
         NotificationTitle.ZIndex = 3
         NotificationTitle.Font = Enum.Font.GothamSemibold
         NotificationTitle.Text = "Notification"
-        NotificationTitle.TextColor3 = Color3.fromRGB(255, 0, 0)
+        NotificationTitle.TextColor3 = Color3.fromRGB(105, 105, 105)
         NotificationTitle.TextSize = 22.000
 
         Line.Name = "Line"
@@ -784,9 +784,6 @@ function Update:Window(text,logo,keybind)
 
     local main = {}
     function main:AddButton(text, callback)
-        if logo == nil then
-            logo = "15009422255"
-        end
         local Button = Instance.new("Frame")
         local UICorner = Instance.new("UICorner")
         local TextBtn = Instance.new("TextButton")
@@ -798,7 +795,7 @@ function Update:Window(text,logo,keybind)
 
         Button.Name = "Button"
         Button.Parent = MainFramePage
-        Button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        Button.BackgroundColor3 = Color3.fromRGB(105, 105, 105)
         Button.Size = UDim2.new(0, 387, 0, 31)
 
         UICorner.CornerRadius = UDim.new(0, 5)
@@ -884,9 +881,6 @@ function Update:Window(text,logo,keybind)
 
     function main:AddToggle(TogInfo ,default, callback)
         local toggle = false
-        if logo == nil then
-            logo = "15009422255"
-        end
         local CheckFrame = Instance.new("Frame")
         local CheckFrame2 = Instance.new("Frame")
         local UIStroke = Instance.new("UIStroke")
@@ -915,7 +909,7 @@ function Update:Window(text,logo,keybind)
         UIStroke.Name = "UIStroke"
         UIStroke.Parent = CheckFrame2
         UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-        UIStroke.Color = Color3.fromRGB(255, 0, 0)
+        UIStroke.Color = Color3.fromRGB(105, 105, 105)
         UIStroke.LineJoinMode = Enum.LineJoinMode.Round
         UIStroke.Thickness = 1
         UIStroke.Transparency = 0
@@ -1028,7 +1022,7 @@ function Update:Window(text,logo,keybind)
         UIStroke.Name = "UIStroke"
         UIStroke.Parent = Dropdown
         UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-        UIStroke.Color = Color3.fromRGB(255, 0, 0)
+        UIStroke.Color = Color3.fromRGB(105, 105, 105)
         UIStroke.LineJoinMode = Enum.LineJoinMode.Round
         UIStroke.Thickness = 1
         UIStroke.Transparency = 0
@@ -1051,7 +1045,7 @@ function Update:Window(text,logo,keybind)
         DropScroll.Name = "DropScroll"
         DropScroll.Parent = DropTitle
         DropScroll.Active = true
-        DropScroll.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        DropScroll.BackgroundColor3 = Color3.fromRGB(105, 105, 105)
         DropScroll.BackgroundTransparency = 1.000
         DropScroll.BorderSizePixel = 0
         DropScroll.Position = UDim2.new(0, 0, 0, 31)
@@ -1069,7 +1063,7 @@ function Update:Window(text,logo,keybind)
 
         DropButton.Name = "DropButton"
         DropButton.Parent = Dropdown
-        DropButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        DropButton.BackgroundColor3 = Color3.fromRGB(105, 105, 105)
         DropButton.BackgroundTransparency = 1.000
         DropButton.Size = UDim2.new(0, 385, 0, 31)
         DropButton.Font = Enum.Font.SourceSans
@@ -1253,7 +1247,7 @@ function Update:Window(text,logo,keybind)
         -- Prop --
         SliderFrame.Name = slidertitle or "SliderFrame"
         SliderFrame.Parent = MainFramePage
-        SliderFrame.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        SliderFrame.BackgroundColor3 = Color3.fromRGB(105, 105, 105)
         SliderFrame.BackgroundTransparency = 1.000
         SliderFrame.BorderSizePixel = 0
         SliderFrame.Size = UDim2.new(0, 387, 0, 60)
@@ -1269,7 +1263,7 @@ function Update:Window(text,logo,keybind)
         UIStroke.Name = "UIStroke"
         UIStroke.Parent = SliderFrame_2
         UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-        UIStroke.Color = Color3.fromRGB(255, 0, 0)
+        UIStroke.Color = Color3.fromRGB(105, 105, 105)
         UIStroke.LineJoinMode = Enum.LineJoinMode.Round
         UIStroke.Thickness = 1
         UIStroke.Transparency = 0
@@ -1320,7 +1314,7 @@ function Update:Window(text,logo,keybind)
     
         SliderCount.Name = "SliderCount"
         SliderCount.Parent = SliderButton
-        SliderCount.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        SliderCount.BackgroundColor3 = Color3.fromRGB(105, 105, 105)
         SliderCount.BackgroundTransparency = 0.3
         SliderCount.BorderSizePixel = 0
         SliderCount.Position = UDim2.new(0,start,0,0)
@@ -1349,7 +1343,7 @@ function Update:Window(text,logo,keybind)
         SliderStroke.Name = "SliderStroke"
         SliderStroke.Parent = BoxFrame
         SliderStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-        SliderStroke.Color = Color3.fromRGB(255, 0, 0)
+        SliderStroke.Color = Color3.fromRGB(105, 105, 105)
         SliderStroke.LineJoinMode = Enum.LineJoinMode.Round
         SliderStroke.Thickness = 1
         SliderStroke.Transparency = 0.5
@@ -1571,7 +1565,7 @@ function Update:Window(text,logo,keybind)
 
         Textbox.Name = "Textbox"
         Textbox.Parent = MainFramePage
-        Textbox.BackgroundColor3 = Color3.new(255, 0, 0)
+        Textbox.BackgroundColor3 = Color3.new(105, 105, 105)
         Textbox.BackgroundTransparency = 0
         Textbox.Size = UDim2.new(0, 387, 0, 31)
 
@@ -1700,7 +1694,7 @@ function Update:Window(text,logo,keybind)
         
         Textbox.Name = "Textbox"
         Textbox.Parent = MainFramePage
-        Textbox.BackgroundColor3 = Color3.new(255, 0, 0)
+        Textbox.BackgroundColor3 = Color3.new(105, 105, 105)
         Textbox.BackgroundTransparency = 0
         Textbox.Size = UDim2.new(0, 387, 0, 31)
         
@@ -1720,7 +1714,7 @@ function Update:Window(text,logo,keybind)
         
         TextboxLabel.Name = "TextboxLabel"
         TextboxLabel.Parent = Textbox
-        TextboxLabel.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        TextboxLabel.BackgroundColor3 = Color3.fromRGB(105, 105, 105)
         TextboxLabel.BackgroundTransparency = 1.000
         TextboxLabel.Position = UDim2.new(0, 15, 0, 0)
         TextboxLabel.Text = text
@@ -1750,7 +1744,7 @@ function Update:Window(text,logo,keybind)
         RealTextbox.Size = UDim2.new(0, 100, 0, 24)
         RealTextbox.Font = Enum.Font.GothamSemibold
         RealTextbox.Text = ""
-        RealTextbox.TextColor3 = Color3.fromRGB(255, 0, 0)
+        RealTextbox.TextColor3 = Color3.fromRGB(105, 105, 105)
         RealTextbox.TextSize = 11.000
         RealTextbox.TextTransparency = 0
 
@@ -1869,7 +1863,7 @@ function Update:Window(text,logo,keybind)
 
         Sep1.Name = "Sep1"
         Sep1.Parent = Seperator
-        Sep1.BackgroundColor3 = Color3.new(255, 0, 0)
+        Sep1.BackgroundColor3 = Color3.new(105, 105, 105)
         Sep1.BorderSizePixel = 0
         Sep1.Position = UDim2.new(0, 0, 0, 10)
         Sep1.Size = UDim2.new(0, 80, 0, 1)
@@ -1887,7 +1881,7 @@ function Update:Window(text,logo,keybind)
 
         Sep3.Name = "Sep3"
         Sep3.Parent = Seperator
-        Sep3.BackgroundColor3 = Color3.new(255, 0, 0)
+        Sep3.BackgroundColor3 = Color3.new(105, 105, 105)
         Sep3.BorderSizePixel = 0
         Sep3.Position = UDim2.new(0, 300, 0, 10)
         Sep3.Size = UDim2.new(0, 80, 0, 1)
@@ -1906,7 +1900,7 @@ function Update:Window(text,logo,keybind)
         
         Line.Name = "Line"
         Line.Parent = Linee
-        Line.BackgroundColor3 = Color3.new(255, 0, 0)
+        Line.BackgroundColor3 = Color3.new(105, 105, 105)
         Line.BorderSizePixel = 0
         Line.Position = UDim2.new(0, 0, 0, 10)
         Line.Size = UDim2.new(0, 410, 0, 1)
@@ -2801,14 +2795,14 @@ function UpdateFlowerChams()
 						name.TextYAlignment = 'Top'
 						name.BackgroundTransparency = 1
 						name.TextStrokeTransparency = 0.5
-						name.TextColor3 = Color3.fromRGB(255, 0, 0)
+						name.TextColor3 = Color3.fromRGB(105, 105, 105)
 						if v.Name == "Flower1" then 
 							name.Text = ("Blue Flower" ..' \n'.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Position).Magnitude/3) ..' Distance')
 							name.TextColor3 = Color3.fromRGB(0, 0, 255)
 						end
 						if v.Name == "Flower2" then
 							name.Text = ("Red Flower" ..' \n'.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Position).Magnitude/3) ..' Distance')
-							name.TextColor3 = Color3.fromRGB(255, 0, 0)
+							name.TextColor3 = Color3.fromRGB(105, 105, 105)
 						end
 					else
 						v['NameEsp'..Number].TextLabel.Text = (v.Name ..'   \n'.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Position).Magnitude/3) ..' Distance')
@@ -2841,7 +2835,7 @@ function UpdateRealFruitChams()
 					name.TextYAlignment = 'Top'
 					name.BackgroundTransparency = 1
 					name.TextStrokeTransparency = 0.5
-					name.TextColor3 = Color3.fromRGB(255, 0, 0)
+					name.TextColor3 = Color3.fromRGB(105, 105, 105)
 					name.Text = (v.Name ..' \n'.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Handle.Position).Magnitude/3) ..' Distance')
 				else
 					v.Handle['NameEsp'..Number].TextLabel.Text = (v.Name ..' '.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Handle.Position).Magnitude/3) ..' Distance')
@@ -3094,14 +3088,14 @@ function UpdateFlowerChams()
 						name.TextYAlignment = 'Top'
 						name.BackgroundTransparency = 1
 						name.TextStrokeTransparency = 0.5
-						name.TextColor3 = Color3.fromRGB(255, 0, 0)
+						name.TextColor3 = Color3.fromRGB(105, 105, 105)
 						if v.Name == "Flower1" then 
 							name.Text = ("Blue Flower" ..' \n'.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Position).Magnitude/3) ..' Distance')
 							name.TextColor3 = Color3.fromRGB(0, 0, 255)
 						end
 						if v.Name == "Flower2" then
 							name.Text = ("Red Flower" ..' \n'.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Position).Magnitude/3) ..' Distance')
-							name.TextColor3 = Color3.fromRGB(255, 0, 0)
+							name.TextColor3 = Color3.fromRGB(105, 105, 105)
 						end
 					else
 						v['NameEsp'..Number].TextLabel.Text = (v.Name ..'   \n'.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Position).Magnitude/3) ..' Distance')
@@ -3134,7 +3128,7 @@ function UpdateRealFruitChams()
 					name.TextYAlignment = 'Top'
 					name.BackgroundTransparency = 1
 					name.TextStrokeTransparency = 0.5
-					name.TextColor3 = Color3.fromRGB(255, 0, 0)
+					name.TextColor3 = Color3.fromRGB(105, 105, 105)
 					name.Text = (v.Name ..' \n'.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Handle.Position).Magnitude/3) ..' Distance')
 				else
 					v.Handle['NameEsp'..Number].TextLabel.Text = (v.Name ..' '.. round((game:GetService('Players').LocalPlayer.Character.Head.Position - v.Handle.Position).Magnitude/3) ..' Distance')
@@ -3825,7 +3819,7 @@ getgenv().HyperCahayas = function(p)
     end)
     
 
-local Library = Update:Window("MrKhoi Riel","",Enum.KeyCode.RightControl);
+local Library = Update:Window("MrKhoi Riel","",Enum.KeyCode.LeftControl);
 
 local DK = Library:AddTab("Information","4483345998")
 local Main = Library:AddTab("Main","4483345998")
