@@ -308,7 +308,7 @@ function Update:Window(text,logo,keybind)
     Main.Parent = MrKhoiUI
     Main.ClipsDescendants = true
     Main.AnchorPoint = Vector2.new(0.5,0.5)
-    Main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Main.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
     Main.Position = UDim2.new(0.5, 0, 0.5, 0)
     Main.Size = UDim2.new(0, 0, 0, 0)
 
@@ -333,9 +333,9 @@ function Update:Window(text,logo,keybind)
     local Top = Instance.new("Frame")
     Top.Name = "Top"
     Top.Parent = Main
-    Top.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Top.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
     Top.Size = UDim2.new(0, 556, 0, 30)
-    Top.BackgroundTransparency = 1.000
+    Top.BackgroundTransparency = 50.000
     local TCNR = Instance.new("UICorner")
     TCNR.Name = "TCNR"
     TCNR.Parent = Top
@@ -460,7 +460,7 @@ function Update:Window(text,logo,keybind)
     local Page = Instance.new("Frame")
     Page.Name = "Page"
     Page.Parent = Main
-    Page.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Page.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
     Page.Position = UDim2.new(0.255426834, 0, 0.086000003, 0)
     Page.Size = UDim2.new(0, 410, 0, 308)
 
@@ -716,7 +716,7 @@ function Update:Window(text,logo,keybind)
         OkayBtnTitle.Name = "OkayBtnTitle"
         OkayBtnTitle.Parent = OkayBtn
         OkayBtnTitle.BackgroundColor3 = Color3.new(125,0,125)
-        OkayBtnTitle.BackgroundTransparency = 1.000
+        OkayBtnTitle.BackgroundTransparency = 50.000
         OkayBtnTitle.Size = UDim2.new(0, 150, 0, 30)
         OkayBtnTitle.Text = "OK"
         OkayBtnTitle.Font = Enum.Font.GothamSemibold
@@ -726,7 +726,7 @@ function Update:Window(text,logo,keybind)
         NotificationTitle.Name = "NotificationTitle"
         NotificationTitle.Parent = NotificationFrame
         NotificationTitle.BackgroundColor3 = Color3.new(125,0,125)
-        NotificationTitle.BackgroundTransparency = 1.000
+        NotificationTitle.BackgroundTransparency = 50.000
         NotificationTitle.Position = UDim2.new(0, 0, 0, 10)
         NotificationTitle.Size = UDim2.new(0, 400, 0, 25)
         NotificationTitle.ZIndex = 3
@@ -803,7 +803,7 @@ function Update:Window(text,logo,keybind)
 
         TextBtn.Name = "TextBtn"
         TextBtn.Parent = Button
-        TextBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        TextBtn.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
         TextBtn.Position = UDim2.new(0, 1, 0, 1)
         TextBtn.Size = UDim2.new(0, 385, 0, 29)
         TextBtn.AutoButtonColor = false
@@ -894,14 +894,14 @@ function Update:Window(text,logo,keybind)
         -- Prop --
         CheckFrame.Name = TogInfo or "CheckFrame"
         CheckFrame.Parent = MainFramePage
-        CheckFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-        CheckFrame.BackgroundTransparency = 1.000
+        CheckFrame.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
+        CheckFrame.BackgroundTransparency = 50.000
         CheckFrame.BorderSizePixel = 0
         CheckFrame.Size = UDim2.new(0, 387, 0, 31)
 
         CheckFrame2.Name = "CheckFrame2"
         CheckFrame2.Parent = CheckFrame
-        CheckFrame2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        CheckFrame2.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
         CheckFrame2.BorderSizePixel = 0
         CheckFrame2.Position = UDim2.new(0, 3, 0, 0)
         CheckFrame2.Size = UDim2.new(0, 381, 0, 30)
@@ -1015,7 +1015,7 @@ function Update:Window(text,logo,keybind)
 
         Dropdown.Name = "Dropdown"
         Dropdown.Parent = MainFramePage
-        Dropdown.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        Dropdown.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
         Dropdown.ClipsDescendants = true
         Dropdown.Size = UDim2.new(0, 387, 0, 31)
 
@@ -1609,7 +1609,7 @@ function Update:Window(text,logo,keybind)
 
         RealTextbox.Name = "RealTextbox"
         RealTextbox.Parent = Textbox
-        RealTextbox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        RealTextbox.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
         RealTextbox.BackgroundTransparency = 0
         RealTextbox.Position = UDim2.new(0, 275, 0, 4)
         RealTextbox.Size = UDim2.new(0, 100, 0, 24)
@@ -1738,7 +1738,7 @@ function Update:Window(text,logo,keybind)
         
         RealTextbox.Name = "RealTextbox"
         RealTextbox.Parent = Textbox
-        RealTextbox.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        RealTextbox.BackgroundColor3 = Color3.fromRGB(128, 128, 128)
         RealTextbox.BackgroundTransparency = 0
         RealTextbox.Position = UDim2.new(0, 275, 0, 4)
         RealTextbox.Size = UDim2.new(0, 100, 0, 24)
