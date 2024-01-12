@@ -1,4 +1,3 @@
----[Notify Má»›i LÃ m:))]
 local Notif = {}
 
 local CoreGUI = game:GetService("CoreGui")
@@ -299,14 +298,14 @@ function Update:Window(text,logo,keybind)
     local keybind = keybind or Enum.KeyCode.RightControl
     local yoo = string.gsub(tostring(keybind),"Enum.KeyCode.","")
 
-    local THUNDERZHUB = Instance.new("ScreenGui")
-    THUNDERZHUB.Name = "THUNDERZHUB"
-    THUNDERZHUB.Parent = game.CoreGui
-    THUNDERZHUB.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    local MrKhoiUI = Instance.new("ScreenGui")
+    MrKhoiUI.Name = "MrKhoiUI"
+    MrKhoiUI.Parent = game.CoreGui
+    MrKhoiUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
     local Main = Instance.new("Frame")
     Main.Name = "Main"
-    Main.Parent = THUNDERZHUB
+    Main.Parent = MrKhoiUI
     Main.ClipsDescendants = true
     Main.AnchorPoint = Vector2.new(0.5,0.5)
     Main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
@@ -367,7 +366,7 @@ function Update:Window(text,logo,keybind)
     Ping.Position = UDim2.new(0.28, 0,0.074, 0)
     Ping.Size = UDim2.new(0, 225, 0, 25)
     Ping.Font = Enum.Font.GothamSemibold
-    Ping.Text = "Blox Fruit | Script By Bstory IOS        [RightControl]"
+    Ping.Text = "MrKhoi Hub | dsc.gg/mrkhoi"
     Ping.TextColor3 = Color3.fromRGB(255,255,255)
     Ping.TextSize = 14.000
     Ping.TextXAlignment = Enum.TextXAlignment.Left
@@ -391,7 +390,7 @@ function Update:Window(text,logo,keybind)
     UserText.TextColor3 = Color3.fromRGB(255, 255, 255)
     UserText.Size = UDim2.new(0, 80, 0, 25)
     UserText.Font = Enum.Font.GothamSemibold
-    UserText.Text = "Agreen Premium"
+    UserText.Text = "MeoSimmy"
     UserText.TextScaled = true
     UserText.TextSize = 17.000
     UserText.TextWrapped = true
@@ -3826,9 +3825,9 @@ getgenv().HyperCahayas = function(p)
     end)
     
 
-local Library = Update:Window("Agreen Premium","",Enum.KeyCode.RightControl);
+local Library = Update:Window("MrKhoi Riel","",Enum.KeyCode.RightControl);
 
-local NguyenTien = Library:AddTab("Information","4483345998")
+local DK = Library:AddTab("Information","4483345998")
 local Main = Library:AddTab("Main","4483345998")
 local M = Library:AddTab("Item","4483345998")
 local Ss = Library:AddTab("Stats","4483345998")
@@ -3839,27 +3838,7 @@ local T = Library:AddTab("Teleport","4483345998")
 local S = Library:AddTab("Shop","4483345998")
 local D = Library:AddTab("Devil Fruit","4483345998")
 local Misc = Library:AddTab("Misc","4483345998")
---- ThÃ´ng Tin
-NguyenTien:AddSeperator("Information Developer")
-NguyenTien:AddLabel("Owner: Nguyen Tien Phat")
-NguyenTien:AddLabel("Support Code: Twin Erros ")
-NguyenTien:AddLabel("Ui: Thunderz Hub")
-NguyenTien:AddLabel("Thank You For Assisting Me With The\n Script Interface!")
-
-NguyenTien:AddSeperator("Social Network")
-NguyenTien:AddButton("Discord Sever",function()
-setclipboard("https://discord.gg/RNmwmTvzWt")
-Notif.New("Copying To Clipboard DoneðŸŽ‰", 3)
-end)
-NguyenTien:AddButton("YouTube Official",function()
-setclipboard("https://www.youtube.com/@BstoryYtb/featured")
-Notif.New("Copying To Clipboard DoneðŸŽ‰", 3)
-end)
-NguyenTien:AddButton("Facebook Official Owner",function()
-setclipboard("https://www.facebook.com/bstoryy")
-Notif.New("Copying To Clipboard DoneðŸŽ‰", 3)
-end)
----- Trang Chá»§
+DK:AddSeperator("Tab")
 Main:AddSeperator("Farm Settings")
 
 local WeaponList = {"Melee","Sword","Fruit","Gun"}
