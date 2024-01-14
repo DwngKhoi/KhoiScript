@@ -645,7 +645,7 @@ function KLib:MakeWindow(WindowConfig)
 	AddConnection(CloseBtn.MouseButton1Up, function()
 		KLib:MakeNotification({
 			Name = "Interface Destroyed",
-			Content = "The interface will be destroy afrer 5s",
+			Content = "The interface will be destroy afrer 5s\nYou can execute another script",
 			Time = 5
 		})
 		wait(5)
@@ -657,21 +657,15 @@ function KLib:MakeWindow(WindowConfig)
 		if Input.KeyCode == Enum.KeyCode.LeftControl and not UIHidden then
 			MainWindow.Visible = false
 			UIHidden = true
-			WindowStuff.Visible = true
-			WindowTopBarLine.Visible = true
 		elseif Input.KeyCode == Enum.KeyCode.LeftControl then
 			MainWindow.Visible = true
 			UIHidden = false
-			WindowStuff.Visible = false
-			WindowTopBarLine.Visible = false
 		end
 	end)
 
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
 		if Minimized then
 			MainWindow.ClipsDescendants = false
-			WindowStuff.Visible = true
-			WindowTopBarLine.Visible = true
 			MainWindow.Visible = false
 			UIHidden = true
 		end
