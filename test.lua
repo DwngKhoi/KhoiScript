@@ -1914,7 +1914,7 @@ local MainFarm = Window:MakeTab({
 MainFarm:AddLabel("Label")
 local WeaponList = {"Melee","Sword","Fruit","Gun"}
 _G.SelectWeapon = "Melee"
-MainFarms:AddDropdown("Select Weapon",WeaponList,function(value)
+MainFarm:AddDropdown("Select Weapon",WeaponList,function(value)
 _G.SelectWeapon = value
 end)
 
