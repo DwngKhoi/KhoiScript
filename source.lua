@@ -499,8 +499,8 @@ function KLib:MakeWindow(WindowConfig)
 	ImageButton1.BorderSizePixel = 0
 	ImageButton1.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
 	ImageButton1.Size = UDim2.new(0, 50, 0, 50)
-	ImageButton1.Draggable = true
-		ImageButton1.Image = "rbxassetid://15815733731"
+	ImageButton1.Image = "rbxassetid://15815733731"
+	MakeDraggable(DragPoint, ImageButton1)
 	ImageButton1.MouseButton1Down:connect(function()
 		if not UIHidden then
 			MainWindow.Visible = false
