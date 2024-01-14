@@ -653,9 +653,24 @@ function KLib:MakeWindow(WindowConfig)
 	ImageButton1.BorderSizePixel = 0
 	ImageButton1.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
 	ImageButton1.Size = UDim2.new(0, 50, 0, 50)
-	ImageButton1.Draggable = true
 	ImageButton1.Image = "rbxassetid://15815733731"
-	ImageButton1.MouseButton1Down:connect(function()
+	UICorner.Parent = ImageButton1
+	local isDragging = false
+	local dragStartPos
+	ImageButton1.MouseButton1Down:Connect(function()
+		isDragging = true
+		dragStartPos = ImageButton1.Position
+	end)
+	ImageButton1.InputChanged:Connect(function(input)
+		if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+			local delta = input.Position - input.PositionDelta
+			ImageButton1.Position = UDim2.new(0, delta.X, 0, delta.Y)
+		end
+	end)
+	ImageButton1.MouseButton1Up:Connect(function()
+		isDragging = false
+	end)
+	ImageButton1.MouseButton1Click:Connect(function()
 		if not UIHidden then
 			MainWindow.Visible = false
 			UIHidden = true
@@ -663,8 +678,7 @@ function KLib:MakeWindow(WindowConfig)
 			MainWindow.Visible = true
 			UIHidden = false
 		end
-	end)
-	UICorner.Parent = ImageButton1
+	end)	
 
 	AddConnection(CloseBtn.MouseButton1Up, function()
 		KLib:MakeNotification({
