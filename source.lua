@@ -465,7 +465,6 @@ end
 
 function KLib:MakeWindow(WindowConfig)
 	local FirstTab = true
-	--local Minimized = false
 	local Loaded = false
 	local UIHidden = false
 
@@ -653,32 +652,21 @@ function KLib:MakeWindow(WindowConfig)
 	ImageButton1.BorderSizePixel = 0
 	ImageButton1.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
 	ImageButton1.Size = UDim2.new(0, 50, 0, 50)
-	ImageButton1.Image = "rbxassetid://15815733731"
+	ImageButton1.Draggable = true
+	ImageButton1.Image = "rbxassetid://15980489138"
 	UICorner.Parent = ImageButton1
-	local isDragging = false
-	local dragStartPos
 	ImageButton1.MouseButton1Down:Connect(function()
-		isDragging = true
-		dragStartPos = ImageButton1.Position
-	end)
-	ImageButton1.InputChanged:Connect(function(input)
-		if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-			local delta = input.Position - input.PositionDelta
-			ImageButton1.Position = UDim2.new(0, delta.X, 0, delta.Y)
-		end
-	end)
-	ImageButton1.MouseButton1Up:Connect(function()
-		isDragging = false
-	end)
-	ImageButton1.MouseButton1Click:Connect(function()
 		if not UIHidden then
+			ImageButton1.Image = "rbxassetid://15980486211"
 			MainWindow.Visible = false
 			UIHidden = true
 		else
+			ImageButton1.Image = "rbxassetid://15980489138"
 			MainWindow.Visible = true
 			UIHidden = false
 		end
-	end)	
+		UIHidden = not UIHidden
+	end)
 
 	AddConnection(CloseBtn.MouseButton1Up, function()
 		KLib:MakeNotification({
@@ -702,7 +690,7 @@ function KLib:MakeWindow(WindowConfig)
 	end)
 
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
-		if Minimized then
+		if UIHidden then
 			MainWindow.Visible = false
 			UIHidden = true
 			KLib:MakeNotification({
@@ -711,11 +699,11 @@ function KLib:MakeWindow(WindowConfig)
 			Time = 5
 			})
 		end
-		Minimized = not Minimized
+		UIHidden = not UIHidden
 	end)
 --[[
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
-		if Minimized then
+		if UIHidden then
 			TweenService:Create(MainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, 615, 0, 344)}):Play()
 			MinimizeBtn.Ico.Image = "rbxassetid://7072719338"
 			wait(.02)
@@ -731,7 +719,7 @@ function KLib:MakeWindow(WindowConfig)
 			wait(0.1)
 			WindowStuff.Visible = false	
 		end
-		Minimized = not Minimized    
+		UIHidden = not UIHidden    
 	end)
 ]]
 
