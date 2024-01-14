@@ -486,7 +486,53 @@ function KLib:MakeWindow(WindowConfig)
 			makefolder(WindowConfig.ConfigFolder)
 		end	
 	end
+	local ImageButton1 = Instance.new("ImageButton")
+	ImageButton1.Parent = Orion
+	ImageButton1.BackgroundColor3 = Color3.fromRGB(0, 239, 5)
+	ImageButton1.BorderSizePixel = 0
+	ImageButton1.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
+	ImageButton1.Size = UDim2.new(0, 50, 0, 50)
+	ImageButton1.Image = "rbxassetid://15815733731"
+	local ImgBtnDragging = false
+	local DragInput, MousePos, FramePos
+	local function EnableImgBtnDragging()
+		AddConnection(ImageButton1.InputBegan, function(Input)
+			if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+				ImgBtnDragging = true
+				MousePos = Input.Position
+				FramePos = ImageButton1.Position
 
+				Input.Changed:Connect(function()
+					if Input.UserInputState == Enum.UserInputState.End then
+						ImgBtnDragging = false
+					end
+				end)
+			end
+		end)
+
+		AddConnection(ImageButton1.InputChanged, function(Input)
+			if Input.UserInputType == Enum.UserInputType.MouseMovement then
+				DragInput = Input
+			end
+		end)
+
+		AddConnection(UserInputService.InputChanged, function(Input)
+			if Input == DragInput and ImgBtnDragging then
+				local Delta = Input.Position - MousePos
+				ImageButton1.Position = UDim2.new(FramePos.X.Scale, FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)
+			end
+		end)
+	end
+	EnableImgBtnDragging()
+	AddConnection(ImageButton1.MouseButton1Down, function()
+		if not UIHidden then
+			MainWindow.Visible = false
+			UIHidden = true
+		else
+			MainWindow.Visible = true
+			UIHidden = false
+		end
+	end)
 	local TabHolder = AddThemeObject(SetChildren(SetProps(MakeElement("ScrollFrame", Color3.fromRGB(255, 255, 255), 4), {
 		Size = UDim2.new(1, 0, 1, -50)
 	}), {
