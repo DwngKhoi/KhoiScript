@@ -465,7 +465,7 @@ end
 
 function KLib:MakeWindow(WindowConfig)
 	local FirstTab = true
-	--local Minimized = false
+	local Minimized = false
 	local Loaded = false
 	local UIHidden = false
 
@@ -486,22 +486,31 @@ function KLib:MakeWindow(WindowConfig)
 			makefolder(WindowConfig.ConfigFolder)
 		end	
 	end
-	local ImageButton1 = Instance.new("ImageButton")
-	local UICorner = Instance.new("UICorner")
-	local UIGradient = Instance.new("UIGradient")
-	local UIStroke = Instance.new("UIStroke")
-	Orion.Name = "ImageButton"
-	Orion.Parent = game.CoreGui
-	Orion.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-	ImageButton1.Parent = Orion
-	ImageButton1.BackgroundColor3 = Color3.fromRGB(0, 239, 5)
-	ImageButton1.BorderSizePixel = 0
-	ImageButton1.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
-	ImageButton1.Size = UDim2.new(0, 50, 0, 50)
-	ImageButton1.Image = "rbxassetid://15815733731"
-	MakeDraggable(DragPoint, ImageButton1)
-	ImageButton1.MouseButton1Down:connect(function()
+	local ImgBtnOnOff = game.CoreGui:WaitForChild("MrKhoi")
+	local OnOffBtn = Instance.new("ImageButton")
+	OnOffBtn.Name = "OImgButton"
+	OnOffBtn.Size = UDim2.new(0, 100, 0, 100)
+	OnOffBtn.Position = UDim2.new(0, 50, 0, 50) 
+	OnOffBtn.Image = "rbxassetid://15815733731"
+	OnOffBtn.BackgroundTransparency = 1
+	OnOffBtn.ScaleType = Enum.ScaleType.Fit
+	OnOffBtn.Parent = ImgBtnOnOff
+	local isDragging = false
+	local dragStartPos
+	OnOffBtn.MouseButton1Down:Connect(function()
+		isDragging = true
+		dragStartPos = OnOffBtn.Position
+	end)
+	OnOffBtn.InputChanged:Connect(function(input)
+		if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+			local delta = input.Position - input.PositionDelta
+			OnOffBtn.Position = UDim2.new(0, delta.X, 0, delta.Y)
+		end
+	end)
+	OnOffBtn.MouseButton1Up:Connect(function()
+		isDragging = false
+	end)
+	OnOffBtn.MouseButton1Click:Connect(function()
 		if not UIHidden then
 			MainWindow.Visible = false
 			UIHidden = true
@@ -510,6 +519,7 @@ function KLib:MakeWindow(WindowConfig)
 			UIHidden = false
 		end
 	end)
+
 	local TabHolder = AddThemeObject(SetChildren(SetProps(MakeElement("ScrollFrame", Color3.fromRGB(255, 255, 255), 4), {
 		Size = UDim2.new(1, 0, 1, -50)
 	}), {
