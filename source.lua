@@ -465,7 +465,7 @@ end
 
 function KLib:MakeWindow(WindowConfig)
 	local FirstTab = true
-	local Minimized = false
+	--local Minimized = false
 	local Loaded = false
 	local UIHidden = false
 
@@ -486,39 +486,6 @@ function KLib:MakeWindow(WindowConfig)
 			makefolder(WindowConfig.ConfigFolder)
 		end	
 	end
-	local ImgBtnOnOff = game.CoreGui:WaitForChild("MrKhoi")
-	local OnOffBtn = Instance.new("ImageButton")
-	OnOffBtn.Name = "OImgButton"
-	OnOffBtn.Size = UDim2.new(0, 100, 0, 100)
-	OnOffBtn.Position = UDim2.new(0, 50, 0, 50) 
-	OnOffBtn.Image = "rbxassetid://15815733731"
-	OnOffBtn.BackgroundTransparency = 1
-	OnOffBtn.ScaleType = Enum.ScaleType.Fit
-	OnOffBtn.Parent = ImgBtnOnOff
-	local isDragging = false
-	local dragStartPos
-	OnOffBtn.MouseButton1Down:Connect(function()
-		isDragging = true
-		dragStartPos = OnOffBtn.Position
-	end)
-	OnOffBtn.InputChanged:Connect(function(input)
-		if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-			local delta = input.Position - input.PositionDelta
-			OnOffBtn.Position = UDim2.new(0, delta.X, 0, delta.Y)
-		end
-	end)
-	OnOffBtn.MouseButton1Up:Connect(function()
-		isDragging = false
-	end)
-	OnOffBtn.MouseButton1Click:Connect(function()
-		if not UIHidden then
-			MainWindow.Visible = false
-			UIHidden = true
-		else
-			MainWindow.Visible = true
-			UIHidden = false
-		end
-	end)
 
 	local TabHolder = AddThemeObject(SetChildren(SetProps(MakeElement("ScrollFrame", Color3.fromRGB(255, 255, 255), 4), {
 		Size = UDim2.new(1, 0, 1, -50)
@@ -674,6 +641,40 @@ function KLib:MakeWindow(WindowConfig)
 	end	
 
 	MakeDraggable(DragPoint, MainWindow)
+
+	local ImgBtnOnOff = game.CoreGui:WaitForChild("MrKhoi")
+	local OnOffBtn = Instance.new("ImageButton")
+	OnOffBtn.Name = "ImgButton"
+	OnOffBtn.Size = UDim2.new(0, 100, 0, 100)
+	OnOffBtn.Position = UDim2.new(0, 50, 0, 50) 
+	OnOffBtn.Image = "rbxassetid://15815733731"
+	OnOffBtn.BackgroundTransparency = 1
+	OnOffBtn.ScaleType = Enum.ScaleType.Fit
+	OnOffBtn.Parent = ImgBtnOnOff
+	local isDragging = false
+	local dragStartPos
+	OnOffBtn.MouseButton1Down:Connect(function()
+		isDragging = true
+		dragStartPos = OnOffBtn.Position
+	end)
+	OnOffBtn.InputChanged:Connect(function(input)
+		if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+			local delta = input.Position - input.PositionDelta
+			OnOffBtn.Position = UDim2.new(0, delta.X, 0, delta.Y)
+		end
+	end)
+	OnOffBtn.MouseButton1Up:Connect(function()
+		isDragging = false
+	end)
+	OnOffBtn.MouseButton1Click:Connect(function()
+		if not UIHidden then
+			MainWindow.Visible = false
+			UIHidden = true
+		else
+			MainWindow.Visible = true
+			UIHidden = false
+		end
+	end)
 
 	AddConnection(CloseBtn.MouseButton1Up, function()
 		KLib:MakeNotification({
