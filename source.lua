@@ -667,15 +667,23 @@ function KLib:MakeWindow(WindowConfig)
 	end)
 
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
-		MainWindow.Visible = false
-		UIHidden = true
-		WindowStuff.Visible = true
-		WindowTopBarLine.Visible = true
-		KLib:MakeNotification({
-			Name = "Interface Hidden",
-			Content = "Tap LeftControl to reopen the interface",
-			Time = 5
-		})
+		if Minimized then
+			TweenService:Create(MainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, 615, 0, 344)}):Play()
+			MinimizeBtn.Ico.Image = "rbxassetid://7072719338"
+			wait(.02)
+			MainWindow.ClipsDescendants = false
+			WindowStuff.Visible = true
+			WindowTopBarLine.Visible = true
+		else
+			MainWindow.ClipsDescendants = true
+			WindowTopBarLine.Visible = false
+			MinimizeBtn.Ico.Image = "rbxassetid://7072720870"
+
+			TweenService:Create(MainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, WindowName.TextBounds.X + 140, 0, 50)}):Play()
+			wait(0.1)
+			WindowStuff.Visible = false	
+		end
+		Minimized = not Minimized
 	end)
 --[[
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
