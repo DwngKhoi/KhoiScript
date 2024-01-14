@@ -916,71 +916,80 @@ function KLib:MakeWindow(WindowConfig)
 				ToggleConfig.Color = ToggleConfig.Color or Color3.fromRGB(9, 99, 195)
 				ToggleConfig.Flag = ToggleConfig.Flag or nil
 				ToggleConfig.Save = ToggleConfig.Save or false
-			
+
 				local Toggle = {Value = ToggleConfig.Default, Save = ToggleConfig.Save}
-			
-				local ToggleButton = SetProps(MakeElement("ImageButton"), {
-					Size = UDim2.new(1, 0, 1, 0),
-					BackgroundTransparency = 1
+
+				local Click = SetProps(MakeElement("Button"), {
+					Size = UDim2.new(1, 0, 1, 0)
 				})
-			
-				local ToggleBox = SetChildren(SetProps(MakeElement("Frame", ToggleConfig.Color, 0, 4), {
-					Size = UDim2.new(0, 30, 0, 16),
-					Position = UDim2.new(1, -30, 0.5, 0),
-					AnchorPoint = Vector2.new(1, 0.5)
+
+				local ToggleBox = SetChildren(SetProps(MakeElement("RoundFrame", ToggleConfig.Color, 0, 4), {
+					Size = UDim2.new(0, 24, 0, 24),
+					Position = UDim2.new(1, -24, 0.5, 0),
+					AnchorPoint = Vector2.new(0.5, 0.5)
 				}), {
-					SetProps(MakeElement("Frame", Color3.fromRGB(255, 255, 255)), {
-						Size = UDim2.new(0, 14, 0, 14),
-						AnchorPoint = Vector2.new(1, 0.5),
-						Position = UDim2.new(1, 0, 0.5, 0),
-						BackgroundTransparency = 0,
-						Name = "Indicator"
-					})
+					SetProps(MakeElement("Stroke"), {
+						Color = ToggleConfig.Color,
+						Name = "Stroke",
+						Transparency = 0.5
+					}),
+					SetProps(MakeElement("Image", "rbxassetid://3944680095"), {
+						Size = UDim2.new(0, 20, 0, 20),
+						AnchorPoint = Vector2.new(0.5, 0.5),
+						Position = UDim2.new(0.5, 0, 0.5, 0),
+						ImageColor3 = Color3.fromRGB(255, 255, 255),
+						Name = "Ico"
+					}),
 				})
-			
-				local ToggleFrame = AddThemeObject(SetChildren(SetProps(MakeElement("Frame", Color3.fromRGB(255, 255, 255), 0, 5), {
+
+				local ToggleFrame = AddThemeObject(SetChildren(SetProps(MakeElement("RoundFrame", Color3.fromRGB(255, 255, 255), 0, 5), {
 					Size = UDim2.new(1, 0, 0, 38),
 					Parent = ItemParent
 				}), {
-					AddThemeObject(SetProps(MakeElement("TextLabel", ToggleConfig.Name, 15), {
+					AddThemeObject(SetProps(MakeElement("Label", ToggleConfig.Name, 15), {
 						Size = UDim2.new(1, -12, 1, 0),
 						Position = UDim2.new(0, 12, 0, 0),
 						Font = Enum.Font.GothamBold,
 						Name = "Content"
 					}), "Text"),
-					AddThemeObject(MakeElement("Frame", Color3.fromRGB(35, 35, 35)), "Indicator"),
+					AddThemeObject(MakeElement("Stroke"), "Stroke"),
 					ToggleBox,
-					ToggleButton
+					Click
 				}), "Second")
-			
+
 				function Toggle:Set(Value)
 					Toggle.Value = Value
-					local indicator = ToggleBox.Indicator
-					local backgroundColor = Toggle.Value and ToggleConfig.Color or Color3.fromRGB(100, 100, 100)
-					local indicatorColor = Toggle.Value and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(125, 125, 125)
-					local uiStrokeColor = Toggle.Value and ToggleConfig.Color or Color3.fromRGB(65, 65, 65)
-			
-					TweenService:Create(indicator, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position = UDim2.new(Toggle.Value and 1 or 0, 0, 0.5, 0)}):Play()
-					TweenService:Create(indicator, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(Toggle.Value and 0 or 1, 0, 0, 14)}):Play()
-					TweenService:Create(indicator, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = backgroundColor}):Play()
-					TweenService:Create(indicator.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = indicatorColor}):Play()
-					TweenService:Create(ToggleBox, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = backgroundColor}):Play()
-					TweenService:Create(ToggleBox.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = uiStrokeColor}):Play()
+					TweenService:Create(ToggleBox, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Toggle.Value and ToggleConfig.Color or KLib.Themes.Default.Divider}):Play()
+					TweenService:Create(ToggleBox.Stroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = Toggle.Value and ToggleConfig.Color or KLib.Themes.Default.Stroke}):Play()
+					TweenService:Create(ToggleBox.Ico, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {ImageTransparency = Toggle.Value and 0 or 1, Size = Toggle.Value and UDim2.new(0, 20, 0, 20) or UDim2.new(0, 8, 0, 8)}):Play()
 					ToggleConfig.Callback(Toggle.Value)
-				end
-			
+				end    
+
 				Toggle:Set(Toggle.Value)
-			
-				AddConnection(ToggleButton.MouseButton1Up, function()
-					Toggle:Set(not Toggle.Value)
-					if ToggleConfig.Flag then
-						KLib.Flags[ToggleConfig.Flag] = Toggle
-					end
+
+				AddConnection(Click.MouseEnter, function()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(KLib.Themes[KLib.SelectedTheme].Second.R * 255 + 3, KLib.Themes[KLib.SelectedTheme].Second.G * 255 + 3, KLib.Themes[KLib.SelectedTheme].Second.B * 255 + 3)}):Play()
 				end)
-			
+
+				AddConnection(Click.MouseLeave, function()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = KLib.Themes[KLib.SelectedTheme].Second}):Play()
+				end)
+
+				AddConnection(Click.MouseButton1Up, function()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(KLib.Themes[KLib.SelectedTheme].Second.R * 255 + 3, KLib.Themes[KLib.SelectedTheme].Second.G * 255 + 3, KLib.Themes[KLib.SelectedTheme].Second.B * 255 + 3)}):Play()
+					SaveCfg(game.GameId)
+					Toggle:Set(not Toggle.Value)
+				end)
+
+				AddConnection(Click.MouseButton1Down, function()
+					TweenService:Create(ToggleFrame, TweenInfo.new(0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(KLib.Themes[KLib.SelectedTheme].Second.R * 255 + 6, KLib.Themes[KLib.SelectedTheme].Second.G * 255 + 6, KLib.Themes[KLib.SelectedTheme].Second.B * 255 + 6)}):Play()
+				end)
+
+				if ToggleConfig.Flag then
+					KLib.Flags[ToggleConfig.Flag] = Toggle
+				end	
 				return Toggle
-			end
-			
+			end  
 			function ElementFunction:AddSlider(SliderConfig)
 				SliderConfig = SliderConfig or {}
 				SliderConfig.Name = SliderConfig.Name or "Slider"
