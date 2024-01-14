@@ -27,7 +27,6 @@ local KLib = {
 	SaveCfg = false
 }
 
---Feather Icons https://github.com/evoincorp/lucideblox/tree/master/src/modules/util - Created by 7kayoh
 local Icons = {}
 
 local Success, Response = pcall(function()
@@ -47,7 +46,7 @@ local function GetIcon(IconName)
 end   
 
 local Orion = Instance.new("ScreenGui")
-Orion.Name = "Orion"
+Orion.Name = "MrKhoi"
 if syn then
 	syn.protect_gui(Orion)
 	Orion.Parent = game.CoreGui
@@ -290,7 +289,7 @@ end)
 
 CreateElement("TFrame", function()
 	local TFrame = Create("Frame", {
-		BackgroundTransparency = 50
+		BackgroundTransparency = 1
 	})
 	return TFrame
 end)
@@ -327,7 +326,7 @@ end)
 
 CreateElement("ScrollFrame", function(Color, Width)
 	local ScrollFrame = Create("ScrollingFrame", {
-		BackgroundTransparency = 50,
+		BackgroundTransparency = 1,
 		MidImage = "rbxassetid://7445543667",
 		BottomImage = "rbxassetid://7445543667",
 		TopImage = "rbxassetid://7445543667",
@@ -466,18 +465,19 @@ end
 
 function KLib:MakeWindow(WindowConfig)
 	local FirstTab = true
-	local Minimized = false
+	--local Minimized = false
 	local Loaded = false
 	local UIHidden = false
 
 	WindowConfig = WindowConfig or {}
-	WindowConfig.Name = WindowConfig.Name or "MrKhoi | dsc.gg/mrkhoi"
-	WindowConfig.ConfigFolder = WindowConfig.ConfigFolder or "MrKhoi"
+	WindowConfig.Name = WindowConfig.Name or "MrKhoi Hub | dsc.gg/mrkhoi"
+	WindowConfig.ConfigFolder = WindowConfig.ConfigFolder or WindowConfig.Name
 	WindowConfig.SaveConfig = WindowConfig.SaveConfig or false
 	WindowConfig.HidePremium = WindowConfig.HidePremium or false
 	WindowConfig.CloseCallback = WindowConfig.CloseCallback or function() end
 	WindowConfig.ShowIcon = WindowConfig.ShowIcon or false
 	WindowConfig.Icon = WindowConfig.Icon or "rbxassetid://8834748103"
+	WindowConfig.IntroIcon = WindowConfig.IntroIcon or "rbxassetid://8834748103"
 	KLib.Folder = WindowConfig.ConfigFolder
 	KLib.SaveCfg = WindowConfig.SaveConfig
 
@@ -641,36 +641,12 @@ function KLib:MakeWindow(WindowConfig)
 	end	
 
 	MakeDraggable(DragPoint, MainWindow)
-	MakeDraggable(DragPoint, ImageButton1)
-	local ImageButton1 = Instance.new("ImageButton")
-	local UICorner = Instance.new("UICorner")
-	local UIGradient = Instance.new("UIGradient")
-	local UIStroke = Instance.new("UIStroke")
-	Orion.Name = "ImageButton"
-	Orion.Parent = game.CoreGui
-	Orion.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-	ImageButton1.Parent = Orion
-	ImageButton1.BackgroundColor3 = Color3.fromRGB(0, 239, 5)
-	ImageButton1.BorderSizePixel = 0
-	ImageButton1.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
-	ImageButton1.Size = UDim2.new(0, 50, 0, 50)
-	ImageButton1.Image = "rbxassetid://15815733731"
-	ImageButton1.MouseButton1Down:connect(function()
-		if UIHidden then
-			MainWindow.Visible = true
-			UIHidden = false
-		else 
-			MainWindow.Visible = false
-			UIHidden = true
-		end
-	end)
 	AddConnection(CloseBtn.MouseButton1Up, function()
-		MainWindow.Visible = false
-		UIHidden = true
+		Interface:Destroy()
 		KLib:MakeNotification({
-			Name = "Interface Hidden",
-			Content = "Tap LeftControl to reopen the interface",
+			Name = "Interface Destroyed",
+			Content = "The interface has been destroyed",
 			Time = 5
 		})
 		WindowConfig.CloseCallback()
@@ -680,12 +656,23 @@ function KLib:MakeWindow(WindowConfig)
 		if Input.KeyCode == Enum.KeyCode.LeftControl and not UIHidden then
 			MainWindow.Visible = false
 			UIHidden = true
-		elseif Input.KeyCode == Enum.KeyCode.LeftControl then
+		end
+		if Input.KeyCode == Enum.KeyCode.LeftControl then
 			MainWindow.Visible = true
 			UIHidden = false
 		end
 	end)
 
+	AddConnection(MinimizeBtn.MouseButton1Up, function()
+		MainWindow.Visible = true
+		UIHidden = false
+		KLib:MakeNotification({
+			Name = "Interface Hidden",
+			Content = "Tap LeftControl to reopen the interface",
+			Time = 5
+		})
+	end)
+--[[
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
 		if Minimized then
 			TweenService:Create(MainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, 615, 0, 344)}):Play()
@@ -705,7 +692,7 @@ function KLib:MakeWindow(WindowConfig)
 		end
 		Minimized = not Minimized    
 	end)
-
+]]
 
 	local TabFunction = {}
 	function TabFunction:MakeTab(TabConfig)
@@ -1696,7 +1683,6 @@ function KLib:MakeWindow(WindowConfig)
 		end
 		return ElementFunction   
 	end  
-	
 	return TabFunction
 end   
 
