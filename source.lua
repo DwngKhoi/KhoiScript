@@ -642,31 +642,20 @@ function KLib:MakeWindow(WindowConfig)
 
 	MakeDraggable(DragPoint, MainWindow)
 
-	local ImgBtnOnOff = game.CoreGui:WaitForChild("MrKhoi")
-	local OnOffBtn = Instance.new("ImageButton")
-	OnOffBtn.Name = "ImgButton"
-	OnOffBtn.Size = UDim2.new(0, 100, 0, 100)
-	OnOffBtn.Position = UDim2.new(0, 50, 0, 50) 
-	OnOffBtn.Image = "rbxassetid://15815733731"
-	OnOffBtn.BackgroundTransparency = 1
-	OnOffBtn.ScaleType = Enum.ScaleType.Fit
-	OnOffBtn.Parent = ImgBtnOnOff
-	local isDragging = false
-	local dragStartPos
-	OnOffBtn.MouseButton1Down:Connect(function()
-		isDragging = true
-		dragStartPos = OnOffBtn.Position
-	end)
-	OnOffBtn.InputChanged:Connect(function(input)
-		if isDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-			local delta = input.Position - input.PositionDelta
-			OnOffBtn.Position = UDim2.new(0, delta.X, 0, delta.Y)
-		end
-	end)
-	OnOffBtn.MouseButton1Up:Connect(function()
-		isDragging = false
-	end)
-	OnOffBtn.MouseButton1Click:Connect(function()
+	local ScreenGui1 = Instance.new("ScreenGui")
+	local ImageButton1 = Instance.new("ImageButton")
+	local UICorner = Instance.new("UICorner")
+	ScreenGui1.Name = "ImageButton"
+	ScreenGui1.Parent = game.CoreGui
+	ScreenGui1.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	ImageButton1.Parent = ScreenGui1
+	ImageButton1.BackgroundColor3 = Color3.fromRGB(0, 239, 5)
+	ImageButton1.BorderSizePixel = 0
+	ImageButton1.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
+	ImageButton1.Size = UDim2.new(0, 50, 0, 50)
+	ImageButton1.Draggable = true
+	ImageButton1.Image = "rbxassetid://15815733731"
+	ImageButton1.MouseButton1Down:connect(function()
 		if not UIHidden then
 			MainWindow.Visible = false
 			UIHidden = true
@@ -675,6 +664,7 @@ function KLib:MakeWindow(WindowConfig)
 			UIHidden = false
 		end
 	end)
+	UICorner.Parent = ImageButton1
 
 	AddConnection(CloseBtn.MouseButton1Up, function()
 		KLib:MakeNotification({
