@@ -689,16 +689,13 @@ function KLib:MakeWindow(WindowConfig)
 	end)
 
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
-		if Minimized then
-			MainWindow.Visible = false
-			UIHidden = true
-			KLib:MakeNotification({
-			Name = "Interface Hideen",
-			Content = "Tap LeftControl to reopen the interface",
-			Time = 5
-			})
-		end
-		Minimized = not Minimized
+		MainWindow.Visible = false
+		UIHidden = true
+		KLib:MakeNotification({
+		Name = "Interface Hideen",
+		Content = "Tap LeftControl to reopen the interface",
+		Time = 5
+		})
 	end)
 --[[
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
