@@ -465,6 +465,7 @@ end
 
 function KLib:MakeWindow(WindowConfig)
 	local FirstTab = true
+	--local Minimized = false
 	local Loaded = false
 	local UIHidden = false
 
@@ -640,13 +641,13 @@ function KLib:MakeWindow(WindowConfig)
 	end	
 
 	MakeDraggable(DragPoint, MainWindow)
-
 	local ScreenGui1 = Instance.new("ScreenGui")
 	local ImageButton1 = Instance.new("ImageButton")
 	local UICorner = Instance.new("UICorner")
 	ScreenGui1.Name = "ImageButton"
 	ScreenGui1.Parent = game.CoreGui
 	ScreenGui1.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	
 	ImageButton1.Parent = ScreenGui1
 	ImageButton1.BackgroundColor3 = Color3.fromRGB(0, 239, 5)
 	ImageButton1.BorderSizePixel = 0
@@ -665,9 +666,7 @@ function KLib:MakeWindow(WindowConfig)
 			MainWindow.Visible = true
 			UIHidden = false
 		end
-		UIHidden = not UIHidden
 	end)
-
 	AddConnection(CloseBtn.MouseButton1Up, function()
 		KLib:MakeNotification({
 			Name = "Interface Destroyed",
@@ -690,7 +689,7 @@ function KLib:MakeWindow(WindowConfig)
 	end)
 
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
-		if UIHidden then
+		if Minimized then
 			MainWindow.Visible = false
 			UIHidden = true
 			KLib:MakeNotification({
@@ -699,11 +698,11 @@ function KLib:MakeWindow(WindowConfig)
 			Time = 5
 			})
 		end
-		UIHidden = not UIHidden
+		Minimized = not Minimized
 	end)
 --[[
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
-		if UIHidden then
+		if Minimized then
 			TweenService:Create(MainWindow, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, 615, 0, 344)}):Play()
 			MinimizeBtn.Ico.Image = "rbxassetid://7072719338"
 			wait(.02)
@@ -719,7 +718,7 @@ function KLib:MakeWindow(WindowConfig)
 			wait(0.1)
 			WindowStuff.Visible = false	
 		end
-		UIHidden = not UIHidden    
+		Minimized = not Minimized    
 	end)
 ]]
 
