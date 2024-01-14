@@ -1914,8 +1914,12 @@ local MainFarm = Window:MakeTab({
 MainFarm:AddLabel("Label")
 local WeaponList = {"Melee","Sword","Fruit","Gun"}
 _G.SelectWeapon = "Melee"
-MainFarm:AddDropdown("Select Weapon",WeaponList,function(value)
-_G.SelectWeapon = value
-end)
+MainFarms:AddDropdown({
+	Name = "Select Weapon",
+	Options = WeaponList,
+	Callback = function(value)
+		_G.SelectWeapon = value
+	end
+})
 
 OrionLib:Init()
