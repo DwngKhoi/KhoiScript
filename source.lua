@@ -656,8 +656,7 @@ function KLib:MakeWindow(WindowConfig)
 		if Input.KeyCode == Enum.KeyCode.LeftControl and not UIHidden then
 			MainWindow.Visible = false
 			UIHidden = true
-		end
-		if Input.KeyCode == Enum.KeyCode.LeftControl then
+		elseif Input.KeyCode == Enum.KeyCode.LeftControl then
 			MainWindow.Visible = true
 			UIHidden = false
 		end
