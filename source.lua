@@ -643,28 +643,34 @@ function KLib:MakeWindow(WindowConfig)
 	MakeDraggable(DragPoint, MainWindow)
 
 	AddConnection(CloseBtn.MouseButton1Up, function()
-		Interface:Destroy()
 		KLib:MakeNotification({
 			Name = "Interface Destroyed",
 			Content = "The interface has been destroyed",
 			Time = 5
 		})
 		WindowConfig.CloseCallback()
+		Orion:Destroy()
 	end)
 
 	AddConnection(UserInputService.InputBegan, function(Input)
 		if Input.KeyCode == Enum.KeyCode.LeftControl and not UIHidden then
 			MainWindow.Visible = false
 			UIHidden = true
+			WindowStuff.Visible = true
+			WindowTopBarLine.Visible = true
 		elseif Input.KeyCode == Enum.KeyCode.LeftControl then
 			MainWindow.Visible = true
 			UIHidden = false
+			WindowStuff.Visible = false
+			WindowTopBarLine.Visible = false
 		end
 	end)
 
 	AddConnection(MinimizeBtn.MouseButton1Up, function()
-		MainWindow.Visible = true
-		UIHidden = false
+		MainWindow.Visible = false
+		UIHidden = true
+		WindowStuff.Visible = true
+		WindowTopBarLine.Visible = true
 		KLib:MakeNotification({
 			Name = "Interface Hidden",
 			Content = "Tap LeftControl to reopen the interface",
