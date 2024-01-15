@@ -2230,7 +2230,7 @@ MainFarm:AddDropdown({
 
 MainFarm:AddToggle({
 	Name = "Auto Level",
-	Default = _G.AutoFarm,
+	Default = false,
 	Callback = function(value)
 		_G.AutoFarm = value
         StopTween(_G.AutoFarm)
