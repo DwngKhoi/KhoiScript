@@ -2050,7 +2050,7 @@ Callback = function(value)
 		end
 	end
 	end)
-	LocalPTab:AddToggle({
+	MainFarm:AddToggle({
 		Name = "Turn On V4 Race",
 		Default = false,
 		Callback = function(value)
@@ -2068,7 +2068,7 @@ Callback = function(value)
 		       end)
            end
        end)
-	SettingTab:AddToggle({
+	MainFarm:AddToggle({
 		Name = "Fast Attack ",
 		Default = true,
 		Callback = function(value)
@@ -2222,7 +2222,7 @@ MainFarm:AddToggle({
 		 end
 	 end
 end)
-SettingTab:AddToggle({
+MainFarm:AddToggle({
 	Name = "Bring Mob",
 	Default = true,
 	Callback = function(Mag)
@@ -2263,7 +2263,7 @@ SettingTab:AddToggle({
     
 local Bring = {"Low", "Normal", "Super Bring"}
 _G.BringMode = "Normal"
-SettingTab:AddDropdown(Name = "Bring Mob Mode",Default = "Normal",Options = Bring,
+MainFarm:AddDropdown(Name = "Bring Mob Mode",Default = "Normal",Options = Bring,
 	Callback = function(value)
     	_G.BringMode = value
 end)
