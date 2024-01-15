@@ -1906,17 +1906,17 @@ function intiAppleHub()
 		end)
 
 local Window = OrionLib:MakeWindow({Name = "MrKhoi | dsc.gg/mrkhoi", HidePremium = false, SaveConfig = true, ConfigFolder = "MrKhoi"})
-local MainFarm = Window:MakeTab({Name = "Main Farm",})
-local FruitTab = Window:MakeTab({Name = "Fruit",})
-local LocalPTab = Window:MakeTab({Name = "Local Player",})
-local TravelTab = Window:MakeTab({Name = "Travel",})
-local PvpTab = Window:MakeTab({Name = "Pvp-Visual",})
-local RaidTab = Window:MakeTab({Name = "Raid-Material",})
-local RaceV4Tab = Window:MakeTab({Name = "RaceV4-Mirage",})
-local SeaTab = Window:MakeTab({Name = "Sea Events",})
-local ShopTab = Window:MakeTab({Name = "Shop",})
-local SettingTab = Window:MakeTab({Name = "Setting",})
-local MiscTab = Window:MakeTab({Name = "Game-Server",})
+local MainFarm = Window:MakeTab({Name = "Main Farm"})
+local FruitTab = Window:MakeTab({Name = "Fruit"})
+local LocalPTab = Window:MakeTab({Name = "Local Player"})
+local TravelTab = Window:MakeTab({Name = "Travel"})
+local PvpTab = Window:MakeTab({Name = "Pvp-Visual"})
+local RaidTab = Window:MakeTab({Name = "Raid-Material"})
+local RaceV4Tab = Window:MakeTab({Name = "RaceV4-Mirage"})
+local SeaTab = Window:MakeTab({Name = "Sea Events"})
+local ShopTab = Window:MakeTab({Name = "Shop"})
+local SettingTab = Window:MakeTab({Name = "Setting"})
+local MiscTab = Window:MakeTab({Name = "Game-Server"})
 
 
 MainFarm:AddLabel("Only Turn On 1 Farm At The Same Time")
@@ -2050,7 +2050,7 @@ Callback = function(value)
 		end
 	end
 	end)
-	MainFarm:AddToggle({
+	LocalPTab:AddToggle({
 		Name = "Turn On V4 Race",
 		Default = false,
 		Callback = function(value)
@@ -2068,7 +2068,7 @@ Callback = function(value)
 		       end)
            end
        end)
-	MainFarm:AddToggle({
+	SettingTab:AddToggle({
 		Name = "Fast Attack ",
 		Default = true,
 		Callback = function(value)
@@ -2222,7 +2222,7 @@ MainFarm:AddToggle({
 		 end
 	 end
 end)
-MainFarm:AddToggle({
+SettingTab:AddToggle({
 	Name = "Bring Mob",
 	Default = true,
 	Callback = function(Mag)
@@ -2263,7 +2263,7 @@ MainFarm:AddToggle({
     
 local Bring = {"Low", "Normal", "Super Bring"}
 _G.BringMode = "Normal"
-MainFarm:AddDropdown(Name = "Bring Mob Mode",Default = "Normal",Options = Bring,
+SettingTab:AddDropdown(Name = "Bring Mob Mode",Default = "Normal",Options = Bring,
 	Callback = function(value)
     	_G.BringMode = value
 end)
