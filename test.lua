@@ -1911,10 +1911,10 @@ local MainFarm = Window:MakeTab({
 	Name = "Main Farm",
 	PremiumOnly = false
 })
-MainFarm:AddLabel("Label")
+MainFarm:AddLabel("Farming Tab")
 local WeaponList = {"Melee","Sword","Fruit","Gun"}
 _G.SelectWeapon = "Melee"
-MainFarms:AddDropdown({
+MainFarm:AddDropdown({
 	Name = "Select Weapon",
 	Options = WeaponList,
 	Callback = function(value)
