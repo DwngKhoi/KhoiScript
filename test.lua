@@ -1911,6 +1911,10 @@ local MainFarm = Window:MakeTab({
 	Name = "Main Farm",
 	PremiumOnly = false
 })
+local SettingTab = Window:MakeTab({
+	Name = "Setting",
+	PremiumOnly = false
+})
 MainFarm:AddLabel("Only Turn On 1 Farm At The Same Time")
 local WeaponList = {"Melee","Sword","Fruit","Gun"}
 _G.SelectWeapon = "Melee"
@@ -2284,11 +2288,6 @@ spawn(function()
 		end
 	end
 end)    
-
-local SettingTab = Window:MakeTab({
-	Name = "Setting",
-	PremiumOnly = false
-})
 
 SettingTab:AddToggle({
 	Name = "Fast Attack",
