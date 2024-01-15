@@ -1965,8 +1965,8 @@ Callback = function(value)
 				end
 			end)
 		end
-	end)
-
+		end)
+	_G.FastAttackDelay = "0.175"
 	local Client = game.Players.LocalPlayer
 	local STOP = require(Client.PlayerScripts.CombatFramework.Particle)
 	local STOPRL = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib)
@@ -2037,6 +2037,180 @@ Callback = function(value)
 		end
 	end
 	end
+	
+	
+	spawn(function()
+	while wait(.1) do
+		if _G.FastAttack then
+			pcall(function()
+				repeat task.wait(_G.FastAttackDelay)
+					AttackHit()
+				until not _G.FastAttack
+			end)
+		end
+	end
+	end)
+	
+		   LocalPTab:AddToggle({Name = "Turn On V4 Race",Default = false,function(value)
+			AutoAwakeningRace = value
+		   end})
+	 
+		   spawn(function()
+			   while wait() do
+				   pcall(function()
+					   if AutoAwakeningRace then
+						   game:GetService("VirtualInputManager"):SendKeyEvent(true,"Y",false,game)
+						   wait(0.1)
+						   game:GetService("VirtualInputManager"):SendKeyEvent(false,"Y",false,game)
+					   end
+				   end)
+			   end
+		   end)
+	
+	SettingTab:AddToggle({Name = "Fast Attack ",Default = true,function(value)
+			_G.FastAttack = value
+		end})      
+	   
+	MainFarm:AddToggle({Name = "Auto Level",Default = _G.AutoFarm,function(value)
+			_G.AutoFarm = value
+			StopTween(_G.AutoFarm)
+			saveSettings()
+		end})
+		
+		spawn(function()
+			while wait() do
+				if _G.AutoFarm then
+					pcall(function()
+						local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
+						CheckQuest()
+						if not string.find(QuestTitle, NameMon) then
+							StartMagnet = false
+							game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+						end
+						if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+							StartMagnet = false
+							if BypassTP then
+							if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CFrameQuest.Position).Magnitude > 1500 then
+							BTP(CFrameQuest)
+							elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CFrameQuest.Position).Magnitude < 1500 then
+							TP1(CFrameQuest)
+							end
+						else
+							TP1(CFrameQuest)
+						end
+						if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CFrameQuest.Position).Magnitude <= 20 then
+							game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest",NameQuest,LevelQuest)
+						end
+						elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+							-- Sun-Kissed Warrior Function Farm Level
+							if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, "kissed") then
+								for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+									if string.find(v.Name,"kissed Warrior") then
+										if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+											if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
+												repeat task.wait()
+													EquipWeapon(_G.SelectWeapon)
+													AutoHaki()                                            
+													PosMon = v.HumanoidRootPart.CFrame
+													TP1(v.HumanoidRootPart.CFrame * CFrame.new(PosX,PosY,PosZ))
+													v.HumanoidRootPart.CanCollide = false
+													v.Humanoid.WalkSpeed = 0
+													v.Head.CanCollide = false
+													v.HumanoidRootPart.Size = Vector3.new(70,70,70)
+													StartMagnet = true
+													game:GetService'VirtualUser':CaptureController()
+													game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+												until not _G.AutoFarm or v.Humanoid.Health <= 0 or not v.Parent or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false
+											else
+												StartMagnet = false
+												game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+											end
+										end
+									elseif string.find(v.Name,"kissed Warrior") == nil then
+										TP1(CFrameMon)
+										StartMagnet = false
+										if game:GetService("ReplicatedStorage"):FindFirstChild(Mon) then
+											TP1(game:GetService("ReplicatedStorage"):FindFirstChild(Mon).HumanoidRootPart.CFrame * CFrame.new(0,20,0))
+										end
+									end
+								end
+							else
+								-- For Other Farm Level Except Sun Kissed Warrior
+								if game:GetService("Workspace").Enemies:FindFirstChild(Mon) then
+									for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+										if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+											if v.Name == Mon then
+												if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
+													repeat task.wait()
+														EquipWeapon(_G.SelectWeapon)
+														AutoHaki()                                            
+														PosMon = v.HumanoidRootPart.CFrame
+														TP1(v.HumanoidRootPart.CFrame * CFrame.new(PosX,PosY,PosZ))
+														v.HumanoidRootPart.CanCollide = false
+														v.Humanoid.WalkSpeed = 0
+														v.Head.CanCollide = false
+														v.HumanoidRootPart.Size = Vector3.new(70,70,70)
+														StartMagnet = true
+														game:GetService'VirtualUser':CaptureController()
+														game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672))
+													until not _G.AutoFarm or v.Humanoid.Health <= 0 or not v.Parent or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false
+												else
+													StartMagnet = false
+													game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+												end
+											end
+										end
+									end
+								else
+									TP1(CFrameMon)
+									StartMagnet = false
+									if game:GetService("ReplicatedStorage"):FindFirstChild(Mon) then
+										TP1(game:GetService("ReplicatedStorage"):FindFirstChild(Mon).HumanoidRootPart.CFrame * CFrame.new(0,20,0))
+									end
+								end
+							end
+						end
+					end)
+				end
+			end
+		end)
+	
+	   MainFarm:AddToggle({Name = "Kill Aura | Nearest",Default = _G.AutoFarmNearest,function(value)
+	   _G.AutoFarmNearest = value
+	   StopTween(_G.AutoFarmNearest)
+	 end})
+	   
+	spawn(function()
+		while wait() do
+			if _G.AutoFarmNearest then
+				for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+					if v.Name and v:FindFirstChild("Humanoid") then
+						if v.Humanoid.Health > 0 then
+							repeat wait()
+							  EquipWeapon(_G.SelectWeapon)
+								if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+									local args = {
+										[1] = "Buso"
+									}
+									game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+								   end
+								HyperCahaya(v.HumanoidRootPart.CFrame * CFrame.new(PosX,PosY,PosZ))
+								v.HumanoidRootPart.CanCollide = false
+								Fastattack = true
+								v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+								game:GetService("VirtualUser"):CaptureController()
+								   game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672), game.Workspace.CurrentCamera.CFrame)
+								   AutoFarmNearestMagnet = true
+								   PosMon = v.HumanoidRootPart.CFrame
+							until not _G.AutoFarmNearest or not v.Parent or v.Humanoid.Health <= 0 
+							AutoFarmNearestMagnet = false
+							Fastattack = false
+						end
+					end
+				end
+			end
+		end
+	end)
 	
 
 MainFarm:AddButton({
