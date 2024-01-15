@@ -2163,12 +2163,7 @@ MainFarm:AddButton({
   	end    
 })
 
-local StatusTab = Window:MakeTab({
-	Name = "Status",
-	PremiumOnly = false
-})
-
-local MobKilled = StatusTab:AddLabel("Killed")
+local MobKilled = MainFarm:AddLabel("Killed")
 
 spawn(function()
 	while wait() do
@@ -2186,7 +2181,7 @@ spawn(function()
 	end
 end)
 
-Main:AddToggle("Auto Katakuri",_G.AutoDoughtBoss,function(value)
+MainFarm:AddToggle("Auto Katakuri",_G.AutoDoughtBoss,function(value)
 	_G.AutoDoughtBoss = value
 	game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("CakePrinceSpawner",value)
 	StopTween(_G.AutoDoughtBoss)
