@@ -2038,43 +2038,6 @@ Callback = function(value)
 	end
 	end
 	
-	
-	spawn(function()
-	while wait(.1) do
-		if _G.FastAttack then
-			pcall(function()
-				repeat task.wait(0.1)
-					AttackHit()
-				until not _G.FastAttack
-			end)
-		end
-	end
-	end)
-	LocalPTab:AddToggle({
-		Name = "Turn On V4 Race",
-		Default = false,
-		Callback = function(value)
-        AutoAwakeningRace = value
-    end})
- 
-       spawn(function()
-           while wait() do
-		       pcall(function()
-			       if AutoAwakeningRace then
-				       game:GetService("VirtualInputManager"):SendKeyEvent(true,"Y",false,game)
-				       wait(0.1)
-                       game:GetService("VirtualInputManager"):SendKeyEvent(false,"Y",false,game)
-			       end
-		       end)
-           end
-       end)
-	SettingTab:AddToggle({
-		Name = "Fast Attack ",
-		Default = true,
-		Callback = function(value)
-        _G.FastAttack = value
-    end}) 
-
 
 MainFarm:AddButton({
 	Name = "Fps Boost",
