@@ -2433,41 +2433,6 @@ do
         end
     end)
 
-    local InfSr = Tabs.Settings:AddToggle("MyToggle", {Title = "Soru No CD", Default = false })
-    InfSr:OnChanged(function(value)
-        getgenv().InfSoru = value
-    end)
-    spawn(function()
-        while wait() do
-            pcall(function()
-                if getgenv().InfSoru and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil  then
-                    for i,v in next, getgc() do
-                        if game:GetService("Players").LocalPlayer.Character.Soru then
-                            if typeof(v) == "function" and getfenv(v).script == game:GetService("Players").LocalPlayer.Character.Soru then
-                                for i2,v2 in next, getupvalues(v) do
-                                    if typeof(v2) == "table" then
-                                        repeat wait(0.1)
-                                            v2.LastUse = 0
-                                        until not getgenv().InfSoru or game:GetService("Players").LocalPlayer.Character.Humanoid.Health <= 0
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-            end)
-        end
-    end)
-    local InfDash = Tabs.Settings:AddToggle("MyToggle", {Title = "Dash No CD", Default = false })
-    InfDash:OnChanged(function(value)
-        nododgecool = value
-        NoDodgeCool()
-    end)
-    local InfGeppo = Tabs.Settings:AddToggle("MyToggle", {Title = "Infinite Geppo", Default = false })
-    InfGeppo:OnChanged(function(value)
-        _G.Infgep = value
-        InfGeppo()
-    end)
 end
 
 
