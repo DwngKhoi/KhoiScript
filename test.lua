@@ -2404,34 +2404,6 @@ do
 			end)
 		end
 	end)
-    local V3TurnOn = Tabs.Settings:AddToggle("MyToggle", {Title = "Auto Use Race V3", Default = false })
-    V3TurnOn:OnChanged(function(value)
-        _G.AutoAgility = value
-    end)
-    spawn(function()
-        pcall(function()
-            while wait() do
-                if _G.AutoAgility then
-                    game:GetService("ReplicatedStorage").Remotes.CommE:FireServer("ActivateAbility")
-                end
-            end
-        end)
-    end)
-    local V4TurnOn = Tabs.Settings:AddToggle("MyToggle", {Title = "Auto Use Race V4", Default = true })
-    V4TurnOn:OnChanged(function(value)
-        AutoAwakeningRace = value
-    end)
-    spawn(function()
-        while wait() do
-            pcall(function()
-                if AutoAwakeningRace then
-                    game:GetService("VirtualInputManager"):SendKeyEvent(true,"Y",false,game)
-                    wait(0.1)
-                    game:GetService("VirtualInputManager"):SendKeyEvent(false,"Y",false,game)
-                end
-            end)
-        end
-    end)
 
 end
 
