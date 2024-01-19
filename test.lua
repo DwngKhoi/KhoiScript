@@ -1496,6 +1496,21 @@ function intiAppleHub()
             end
         end
         
+        function InfGeppo()
+            for i,v in next, getgc() do
+                if typeof(v) == "function" then
+                    if getfenv(v).script == game.Players.LocalPlayer.Character:WaitForChild("Geppo") and _G.Infgep then
+                        for i2,v2 in next, getupvalues(v) do
+                            if tostring(v2) == "0" then
+                                repeat wait(.1)
+                                    setupvalue(v,i2,0)
+                                until not _G.Infgep
+                            end
+                        end
+                    end
+                end
+            end
+        end
         
         function fly()
             local mouse=game:GetService("Players").LocalPlayer:GetMouse''
@@ -2068,7 +2083,7 @@ do
     end
     end)
 
-    local FAttack = Tabs.Settings:AddToggle("MyToggle", {Title = "FastAttack", Default = true })
+    local FAttack = Tabs.Settings:AddToggle("MyToggle", {Title = "Fast Attack", Default = true })
     FAttack:OnChanged(function(value)
         _G.FastAttack = value
     end)
@@ -2203,7 +2218,7 @@ do
             end
         end)
     end)
-    local BuyLSword = Tabs.Shop:AddToggle("MyToggle", {Title = "Auto Buy Legandary Sword", Default = false })
+    local BuyLSword = Tabs.Shop:AddToggle("MyToggle", {Title = "Auto Buy Legendary Sword", Default = false })
     BuyLSword:OnChanged(function(value)
         _G.AutoBuyLegendarySword = value
     end)
@@ -2230,7 +2245,7 @@ do
             end 
         end
     end)
-    local BuyHaki = Tabs.Shop:AddToggle("MyToggle", {Title = "Auto Buy Legandary Sword", Default = false })
+    local BuyHaki = Tabs.Shop:AddToggle("MyToggle", {Title = "Auto Buy Enchancement Color", Default = false })
     BuyHaki:OnChanged(function(value)
         _G.AutoBuyEnchancementColour = value
     end)
@@ -2259,6 +2274,376 @@ do
         Callback = function()
 			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Reroll","1")
 	        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward","Reroll","2")
+        end
+    })
+    Tabs.LocalPlayer:AddButton({
+        Title = "Buy Ship",
+        Callback = function()
+			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyBoat","PirateBrigade")
+        end
+    })
+    Tabs.LocalPlayer:AddButton({
+        Title = "Inova Mode",
+        Description = "No stun, more hitbox, etc",
+        Callback = function(value)
+			_G.HyperSonic = value
+        end
+    })
+    local CameraShaker = require(game.ReplicatedStorage.Util.CameraShaker)
+    CombatFrameworkR = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
+    y = debug.getupvalues(CombatFrameworkR)[2]
+    spawn(function()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if _G.FastAttack or _G.HyperSonic then
+                if typeof(y) == "table" then
+                    pcall(function()
+                        CameraShaker:Stop()
+                        y.activeController.timeToNextAttack = (math.huge^math.huge^math.huge)
+                        y.activeController.timeToNextAttack = 0
+                        y.activeController.hitboxMagnitude = 60
+                        y.activeController.active = false
+                        y.activeController.timeToNextBlock = 0
+                        y.activeController.focusStart = 1655503339.0980349
+                        y.activeController.increment = 1
+                        y.activeController.blocking = false
+                        y.activeController.attacking = false
+                        y.activeController.humanoid.AutoRotate = true
+                    end)
+                end
+            end
+        end)
+    end)
+    spawn(function()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if _G.FastAttack == true or _G.HyperSonic == true then
+                game.Players.LocalPlayer.Character.Stun.Value = 0
+                game.Players.LocalPlayer.Character.Busy.Value = false        
+            end
+        end)
+    end)
+        
+    spawn(function()
+    while wait(.1) do
+        if _G.HyperSonic then
+            pcall(function()
+                repeat task.wait(0,09)
+                    AttackHit()
+                until not _G.HyperSonic
+            end)
+        end
+    end
+    end) 
+    Tabs.LocalPlayer:AddButton({
+        Title = "Fly",
+        Callback = function(value)
+			_G.KFly = value
+            task.spawn(function()
+                if _G.KFly then
+                    game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').PlatformStand = true
+                    local Head = game.Players.LocalPlayer.Character:WaitForChild("Head")
+                    Head.Anchored = true
+                    CFloop = RunService.Heartbeat:Connect(function(deltaTime)
+                        local moveDirection = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').MoveDirection * (_G.Settings.Misc["Fly Speed"] * deltaTime)
+                        local headCFrame = Head.CFrame
+                        local cameraCFrame = workspace.CurrentCamera.CFrame
+                        local cameraOffset = headCFrame:ToObjectSpace(cameraCFrame).Position
+                        cameraCFrame = cameraCFrame * CFrame.new(-cameraOffset.X, -cameraOffset.Y, -cameraOffset.Z + 1)
+                        local cameraPosition = cameraCFrame.Position
+                        local headPosition = headCFrame.Position
+    
+                        local objectSpaceVelocity = CFrame.new(cameraPosition, Vector3.new(headPosition.X, cameraPosition.Y, headPosition.Z)):VectorToObjectSpace(moveDirection)
+                        Head.CFrame = CFrame.new(headPosition) * (cameraCFrame - cameraPosition) * CFrame.new(objectSpaceVelocity)
+                end)
+            end)
+        end
+    })
+    Tabs.LocalPlayer:AddButton({
+        Title = "Stop Fly",
+        Callback = function(value)
+			_G.StopKFly = value
+            task.spawn(function()
+                if _G.StopKFly then
+                    if CFloop then
+                        CFloop:Disconnect()
+                        game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').PlatformStand = false
+                        local Head = game.Players.LocalPlayer.Character:WaitForChild("Head")
+                        Head.Anchored = false
+                    end
+                end
+            end)
+        end
+    })
+
+    local NClip = Tabs.Settings:AddToggle("MyToggle", {Title = "No Clip", Default = false })
+    NClip:OnChanged(function(value)
+        _G.NOCLIP = value
+    end)
+    spawn(function()
+        while wait() do
+            if sethiddenproperty then
+                sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",100)
+            end
+            if setscriptable then
+                setscriptable(game.Players.LocalPlayer, "SimulationRadius", true)
+                game.Players.LocalPlayer.SimulationRadius = math.huge * math.huge, math.huge * math.huge * 0 / 0 * 0 / 0 * 0 / 0 * 0 / 0 * 0 / 0
+            end
+        end
+    end)
+    local WWater = Tabs.Settings:AddToggle("MyToggle", {Title = "Water Walker", Default = true })
+    WWater:OnChanged(function(value)
+        _G.WalkWater = value
+    end)
+    spawn(function()
+		while task.wait() do
+			pcall(function()
+				if _G.WalkWater then
+					game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000,112,1000)
+				else
+					game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000,80,1000)
+				end
+			end)
+		end
+	end)
+    local V3TurnOn = Tabs.Settings:AddToggle("MyToggle", {Title = "Auto Use Race V3", Default = false })
+    V3TurnOn:OnChanged(function(value)
+        _G.AutoAgility = value
+    end)
+    spawn(function()
+        pcall(function()
+            while wait() do
+                if _G.AutoAgility then
+                    game:GetService("ReplicatedStorage").Remotes.CommE:FireServer("ActivateAbility")
+                end
+            end
+        end)
+    end)
+    local V4TurnOn = Tabs.Settings:AddToggle("MyToggle", {Title = "Auto Use Race V4", Default = true })
+    V4TurnOn:OnChanged(function(value)
+        AutoAwakeningRace = value
+    end)
+    spawn(function()
+        while wait() do
+            pcall(function()
+                if AutoAwakeningRace then
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true,"Y",false,game)
+                    wait(0.1)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(false,"Y",false,game)
+                end
+            end)
+        end
+    end)
+
+    local InfSr = Tabs.Settings:AddToggle("MyToggle", {Title = "Soru No CD", Default = false })
+    InfSr:OnChanged(function(value)
+        getgenv().InfSoru = value
+    end)
+    spawn(function()
+        while wait() do
+            pcall(function()
+                if getgenv().InfSoru and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil  then
+                    for i,v in next, getgc() do
+                        if game:GetService("Players").LocalPlayer.Character.Soru then
+                            if typeof(v) == "function" and getfenv(v).script == game:GetService("Players").LocalPlayer.Character.Soru then
+                                for i2,v2 in next, getupvalues(v) do
+                                    if typeof(v2) == "table" then
+                                        repeat wait(0.1)
+                                            v2.LastUse = 0
+                                        until not getgenv().InfSoru or game:GetService("Players").LocalPlayer.Character.Humanoid.Health <= 0
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+    local InfDash = Tabs.Settings:AddToggle("MyToggle", {Title = "Dash No CD", Default = false })
+    InfDash:OnChanged(function(value)
+        nododgecool = value
+        NoDodgeCool()
+    end)
+    local InfGeppo = Tabs.Settings:AddToggle("MyToggle", {Title = "Infinite Geppo", Default = false })
+    InfGeppo:OnChanged(function(value)
+        _G.Infgep = value
+        InfGeppo()
+    end)
+
+    Tabs.LocalPlayer:AddButton({
+        Title = "Create Kaitun Capture",
+        Callback = function(value)
+            local cac = require(game:GetService("Players").LocalPlayer.PlayerGui.Main.UIController.Inventory)
+            local Inventory = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("getInventory")
+            local Items = {}
+            local RaityLevel = {"Mythical","Legendary","Rare","Uncommon","Common"}
+            local RaityColor =  {
+                ["Common"] = Color3.fromRGB(179, 179, 179),
+                ["Uncommon"] = Color3.fromRGB(92, 140, 211),
+                ["Rare"] =  Color3.fromRGB(140, 82, 255),
+                ["Legendary"] = Color3.fromRGB(213, 43, 228) ,
+                ["Mythical"] =  Color3.fromRGB(238, 47, 50)
+            }
+            function GetRaity(color)
+                for k,v in pairs(RaityColor) do 
+                    if v==color then return k end
+                end
+            end
+
+            for k,v in pairs(Inventory) do 
+                Items[v.Name] = v
+            end
+
+            local total = #getupvalue(cac.UpdateRender,4)
+            local rac = {}
+            local allitem = {}
+            local total2 = 0
+            while total2<total do 
+                local i = 0
+                while i < 25000 and total2<total do 
+                    game:GetService("Players").LocalPlayer.PlayerGui.Main.InventoryContainer.Right.Content.ScrollingFrame.CanvasPosition = Vector2.new(0,i)
+                    for k,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Main.InventoryContainer.Right.Content.ScrollingFrame.Frame:GetChildren()) do 
+                        if v:IsA("Frame") and not rac[v.ItemName.Text] and v.ItemName.Visible==true then 
+                            local vaihuhu = GetRaity(v.Background.BackgroundColor3)
+                            if vaihuhu then
+                                print("Rac")
+                                if not allitem[vaihuhu] then 
+                                    allitem[vaihuhu] = {}
+                                end
+                                table.insert(allitem[vaihuhu],v:Clone())
+                            end
+                            total2=total2+1
+                            rac[v.ItemName.Text] = true
+                        end
+                    end
+                    i=i+20
+                end
+                wait()
+            end
+            function GetXY(vec) 
+                return vec*100
+            end
+
+            local tvk = Instance.new("UIListLayout")
+            tvk.FillDirection = Enum.FillDirection.Vertical
+            tvk.SortOrder = 2
+            tvk.Padding = UDim.new(0,10)
+
+            local Left = Instance.new("Frame",game.Players.LocalPlayer.PlayerGui.BubbleChat)
+            Left.BackgroundTransparency = 1
+            Left.Size = UDim2.new(.5,0,1,0) 
+            tvk.Parent = Left
+
+            local Right = Instance.new("Frame",game.Players.LocalPlayer.PlayerGui.BubbleChat)
+            Right.BackgroundTransparency = 1
+            Right.Size = UDim2.new(.5,0,1,0) 
+            Right.Position = UDim2.new(.6,0,0,0)
+            tvk:Clone().Parent = Right
+            for k,v in pairs(allitem) do 
+                local cac = Instance.new("Frame",Left)
+                cac.BackgroundTransparency = 1
+                cac.Size = UDim2.new(1,0,0,0) 
+                cac.LayoutOrder = table.find(RaityLevel,k)
+
+                local cac2 = Instance.new("Frame",Right)
+                cac2.BackgroundTransparency = 1
+                cac2.Size = UDim2.new(1,0,0,0) 
+                cac2.LayoutOrder = table.find(RaityLevel,k)
+
+                local tvk = Instance.new("UIGridLayout",cac)
+                tvk.CellPadding = UDim2.new(.005,0,.005,0)
+                tvk.CellSize =  UDim2.new(0,70,0,70)
+                tvk.FillDirectionMaxCells = 100
+                tvk.FillDirection = Enum.FillDirection.Horizontal
+
+                local ccc = tvk:Clone()
+                ccc.Parent = cac2
+                for k,v in pairs(v) do 
+                    if Items[v.ItemName.Text] and Items[v.ItemName.Text].Mastery then 
+                        if v.ItemLine2.Text~="Accessory" then 
+                            local bucac = v.ItemName:Clone()
+                            bucac.BackgroundTransparency = 1
+                            bucac.TextSize = 10
+                            bucac.TextXAlignment  = 2
+                            bucac.TextYAlignment  = 2
+                            bucac.ZIndex  = 5
+                            bucac.Text = Items[v.ItemName.Text].Mastery
+                            bucac.Size = UDim2.new(.5,0,.5,0)
+                            bucac.Position = UDim2.new(.5,0,.5,0)
+                            bucac.Parent = v
+                        end
+                        v.Parent = cac
+                    elseif v.ItemLine2.Text == "Blox Fruit" then 
+                        v.Parent = cac2
+                    end
+                end
+                cac.AutomaticSize = 2
+                cac2.AutomaticSize = 2
+            end
+            local ListHuhu = {
+                ["Superhuman"] = Vector2.new(3,2),
+                ["DeathStep"] = Vector2.new(4,3),
+                ["ElectricClaw"] = Vector2.new(2,0),
+                ["SharkmanKarate"] = Vector2.new(0,0),
+                ["DragonTalon"] = Vector2.new(1,5)
+            }
+            local MeleeG = Instance.new("Frame",Left)
+            MeleeG.BackgroundTransparency = 1
+            MeleeG.Size = UDim2.new(1,0,0,0) 
+            MeleeG.LayoutOrder = table.find(RaityLevel,k)
+            MeleeG.AutomaticSize=2
+            MeleeG.LayoutOrder = 100
+            local tvk = Instance.new("UIGridLayout",MeleeG)
+            tvk.CellPadding = UDim2.new(.005,0,.005,0)
+            tvk.CellSize =  UDim2.new(0,70,0,70)
+            tvk.FillDirectionMaxCells = 100
+            tvk.FillDirection = Enum.FillDirection.Horizontal
+
+            local cac = {"Superhuman","ElectricClaw","DragonTalon","SharkmanKarate","DeathStep","GodHuman"}
+            for k,v in pairs(cac) do
+                if ListHuhu[v] and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Buy"..v,true) == 1 then 
+                    local huhu = Instance.new("ImageLabel",MeleeG)
+                    huhu.Image = "rbxassetid://13189080233"
+                    huhu.ImageRectSize = Vector2.new(100,100)
+                    huhu.ImageRectOffset = ListHuhu[v]*100
+                end
+            end
+            function formatNumber(v)
+                return tostring(v):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
+            end
+            game:GetService("Players").LocalPlayer.PlayerGui.Main.Beli.Position = UDim2.new(0,800,0,500)
+            game:GetService("Players").LocalPlayer.PlayerGui.Main.Level.Position = UDim2.new(0,800,0,550)
+
+            local thieunang = game:GetService("Players").LocalPlayer.PlayerGui.Main.Fragments:Clone()
+            thieunang.Parent = game:GetService("Players").LocalPlayer.PlayerGui.BubbleChat
+            thieunang.Position = UDim2.new(0,800,0.63,0)
+            local n = formatNumber(game.Players.LocalPlayer.Data.Fragments.Value)
+            thieunang.Text = "ƒ"..n
+            print("Done")
+            pcall(function() 
+                game:GetService("Players").LocalPlayer.PlayerGui.Main.MenuButton:Destroy()
+            end)
+            pcall(function() 
+                game:GetService("Players").LocalPlayer.PlayerGui.Main.HP:Destroy()
+            end)
+            pcall(function() 
+                game:GetService("Players").LocalPlayer.PlayerGui.Main.Energy:Destroy()
+            end)
+            for k,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Main:GetChildren()) do 
+                if v:IsA("ImageButton") then 
+                    v:Destroy()
+                end
+            end
+            pcall(function() 
+                game:GetService("Players").LocalPlayer.PlayerGui.Main.Compass:Destroy()
+            end)
+        end
+    })
+
+    Tabs.LocalPlayer:AddButton({
+        Title = "Remove Kaitun Capture",
+        Description = "Rejoin :))",
+        Callback = function(value)
+			game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").localPlayer)
         end
     })
 end
