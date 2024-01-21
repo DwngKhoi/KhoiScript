@@ -1502,22 +1502,6 @@ function intiAppleHub()
             end
         end
         
-        function InfGeppo()
-            for i,v in next, getgc() do
-                if typeof(v) == "function" then
-                    if getfenv(v).script == game.Players.LocalPlayer.Character:WaitForChild("Geppo") and _G.Infgep then
-                        for i2,v2 in next, getupvalues(v) do
-                            if tostring(v2) == "0" then
-                                repeat wait(.1)
-                                    setupvalue(v,i2,0)
-                                until not _G.Infgep
-                            end
-                        end
-                    end
-                end
-            end
-        end
-        
         function fly()
             local mouse=game:GetService("Players").LocalPlayer:GetMouse''
             localplayer=game:GetService("Players").LocalPlayer
@@ -1945,7 +1929,7 @@ local Tabs = {
     LocalPlayer = Window:AddTab({ Title = "Local Player", Icon = "user" }),
     Travel = Window:AddTab({ Title = "Travel", Icon = "palmtree" }),
     Pvp = Window:AddTab({ Title = "Pvp-Visual", Icon = "swords" }),
-    Raid = Window:AddTab({ Title = "Raid-Material", Icon = "github" }),
+    Raid = Window:AddTab({ Title = "Raid-Material", Icon = "fish" }),
     Shop = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }),
     GameSV = Window:AddTab({ Title = "Game-Server", Icon = "server" })
@@ -2370,7 +2354,7 @@ do
         end
     end)
 
-    local InfSr = Tabs.Settings:AddToggle("MyToggle", {Title = "Soru No CD", Default = false })
+    local InfSr = Tabs.LocalPlayer:AddToggle("MyToggle", {Title = "Soru No CD", Default = false })
     InfSr:OnChanged(function(value)
         getgenv().InfSoru = value
     end)
@@ -2395,17 +2379,245 @@ do
             end)
         end
     end)
-    local InfDash = Tabs.Settings:AddToggle("MyToggle", {Title = "Dash No CD", Default = false })
+    local InfDash = Tabs.LocalPlayer:AddToggle("MyToggle", {Title = "Dash No CD", Default = false })
     InfDash:OnChanged(function(value)
         nododgecool = value
         NoDodgeCool()
     end)
-    local InfGeppo = Tabs.Settings:AddToggle("MyToggle", {Title = "Infinite Geppo", Default = false })
+    local InfGeppo = Tabs.LocalPlayer:AddToggle("MyToggle", {Title = "Infinite Geppo", Default = false })
     InfGeppo:OnChanged(function(value)
         _G.Infgep = value
-        InfGeppo()
+        for i,v in next, getgc() do
+            if typeof(v) == "function" then
+                if getfenv(v).script == game.Players.LocalPlayer.Character:WaitForChild("Geppo") and _G.Infgep then
+                    for i2,v2 in next, getupvalues(v) do
+                        if tostring(v2) == "0" then
+                            repeat wait(.1)
+                                setupvalue(v,i2,0)
+                            until not _G.Infgep
+                        end
+                    end
+                end
+            end
+        end
     end)
 
+    local ClFruit = Tabs.Fruit:AddToggle("MyToggle", {Title = "Auto Collect Fruit", Default = false })
+    ClFruit:OnChanged(function(value)
+        _G.Tweenfruit = value
+        StopTween(_G.Tweenfruit)
+    end)
+    spawn(function()
+		while wait(.1) do
+			if _G.Tweenfruit then
+				for i,v in pairs(game.Workspace:GetChildren()) do
+					if string.find(v.Name, "Fruit") then
+						HyperCahaya(v.Handle.CFrame)
+					end
+				end
+			end
+        end
+    end)
+    local StoreFr = Tabs.Fruit:AddToggle("MyToggle", {Title = "Auto Store Fruit", Default = false })
+    StoreFr:OnChanged(function(value)
+        _G.AutoStoreFruit = value
+    end)
+
+    spawn(function()
+        while wait() do
+            if _G.AutoStoreFruit then
+                pcall(function()
+                    local plr = game.Players.LocalPlayer
+                    local chr = plr.Character
+    
+                    for _, fr in pairs(plr.Backpack:GetChildren()) do
+                        if fr:IsA("Tool") and fr.Name:find("Fruit") then
+                            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StoreFruit", fr:GetAttribute("OriginalName"), fr)
+                        end
+                    end
+                end)
+            end
+        end
+    end)
+
+    Tabs.Fruit:AddButton({
+        Title = "Check Mirage Stock",
+        Callback = function()
+			local ReplicatedStorage = game:GetService("ReplicatedStorage")
+            local Remotes = ReplicatedStorage.Remotes
+            local Event = Remotes["CommF_"]
+            local result = Event:InvokeServer("GetFruits", true)
+            local fruitsOnSale = {}
+
+            local function addCommas(number)
+                local formatted = tostring(number)
+                while true do  
+                    formatted, k = formatted:gsub("^(-?%d+)(%d%d%d)", '%1,%2')
+                    if k == 0 then break end
+                end
+                return formatted
+            end
+
+            for _, fruitData in pairs(result) do
+                if fruitData["OnSale"] == true then
+                    local priceWithCommas = addCommas(fruitData["Price"])
+                    local fruitInfo = fruitData["Name"] .. " - " .. priceWithCommas
+                    table.insert(fruitsOnSale, fruitInfo)
+                end
+            end
+
+            -- Tampilkan daftar buah yang ["OnSale"] = true dengan \n di awal
+            print("\n" .. table.concat(fruitsOnSale, "\n"))
+
+            local gui = Instance.new("ScreenGui")
+            gui.Parent = game.Players.LocalPlayer.PlayerGui
+            gui.Name = "MyGUI"
+
+            local frame = Instance.new("Frame")
+            frame.Parent = gui
+            frame.Size = UDim2.new(0, 200, 0, 300)
+            frame.Position = UDim2.new(0.1, 0, 0.1, 0)
+            frame.BackgroundColor3 = Color3.new(0, 0, 0)
+
+            local textLabel = Instance.new("TextLabel")
+            textLabel.Parent = frame
+            textLabel.Size = UDim2.new(1, 0, 1, 0)
+            textLabel.Text = table.concat(fruitsOnSale, "\n")
+            textLabel.TextColor3 = Color3.new(1, 1, 1)
+
+            -- Fungsi untuk menutup GUI
+            local function closeGUI()
+                gui:Destroy()
+            end
+
+            -- Fungsi untuk mengatur drag
+            local isDragging = false
+            local dragInput = nil
+            local dragStart = nil
+
+            frame.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    isDragging = true
+                    dragStart = input.Position
+                    dragInput = input
+                    frame.CaptureInput = true
+                end
+            end)
+
+            frame.InputChanged:Connect(function(input)
+                if input == dragInput and isDragging then
+                    local delta = input.Position - dragStart
+                    frame.Position = UDim2.new(0, frame.Position.X.Offset + delta.X, 0, frame.Position.Y.Offset + delta.Y)
+                    dragStart = input.Position
+                end
+            end)
+
+            frame.InputEnded:Connect(function(input)
+                if input == dragInput and isDragging then
+                    isDragging = false
+                    frame.CaptureInput = false
+                end
+            end)
+
+            -- Atur tombol tutup
+            local closeButton = Instance.new("TextButton")
+            closeButton.Parent = frame
+            closeButton.Size = UDim2.new(0, 20, 0, 20)
+            closeButton.Position = UDim2.new(1, -20, 0, 0)
+            closeButton.BackgroundColor3 = Color3.new(1, 0, 0)
+            closeButton.Text = "X"
+            closeButton.MouseButton1Click:Connect(closeGUI)
+        end
+    })
+
+    Tabs.Fruit:AddButton({
+        Title = "Check Normal Stock",
+        Callback = function()
+			local ReplicatedStorage = game:GetService("ReplicatedStorage")
+            local Remotes = ReplicatedStorage.Remotes
+            local result = Remotes.CommF_:InvokeServer("GetFruits")
+            local fruitsOnSale = {}
+
+            local function addCommas(number)
+                local formatted = tostring(number)
+                while true do  
+                    formatted, k = formatted:gsub("^(-?%d+)(%d%d%d)", '%1,%2')
+                    if k == 0 then break end
+                end
+                return formatted
+            end
+
+            for _, fruitData in pairs(result) do
+                if fruitData["OnSale"] == true then
+                    local priceWithCommas = addCommas(fruitData["Price"])
+                    local fruitInfo = fruitData["Name"] .. " - " .. priceWithCommas
+                    table.insert(fruitsOnSale, fruitInfo)
+                end
+            end
+
+            -- Tampilkan daftar buah yang ["OnSale"] = true dengan \n di awal
+            print("\n" .. table.concat(fruitsOnSale, "\n"))
+
+            local gui = Instance.new("ScreenGui")
+            gui.Parent = game.Players.LocalPlayer.PlayerGui
+            gui.Name = "MyGUI"
+
+            local frame = Instance.new("Frame")
+            frame.Parent = gui
+            frame.Size = UDim2.new(0, 200, 0, 300)
+            frame.Position = UDim2.new(0.1, 0, 0.1, 0)
+            frame.BackgroundColor3 = Color3.new(0, 0, 0)
+
+            local textLabel = Instance.new("TextLabel")
+            textLabel.Parent = frame
+            textLabel.Size = UDim2.new(1, 0, 1, 0)
+            textLabel.Text = table.concat(fruitsOnSale, "\n")
+            textLabel.TextColor3 = Color3.new(1, 1, 1)
+
+            -- Fungsi untuk menutup GUI
+            local function closeGUI()
+                gui:Destroy()
+            end
+
+            -- Fungsi untuk mengatur drag
+            local isDragging = false
+            local dragInput = nil
+            local dragStart = nil
+
+            frame.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    isDragging = true
+                    dragStart = input.Position
+                    dragInput = input
+                    frame.CaptureInput = true
+                end
+            end)
+
+            frame.InputChanged:Connect(function(input)
+                if input == dragInput and isDragging then
+                    local delta = input.Position - dragStart
+                    frame.Position = UDim2.new(0, frame.Position.X.Offset + delta.X, 0, frame.Position.Y.Offset + delta.Y)
+                    dragStart = input.Position
+                end
+            end)
+
+            frame.InputEnded:Connect(function(input)
+                if input == dragInput and isDragging then
+                    isDragging = false
+                    frame.CaptureInput = false
+                end
+            end)
+
+            -- Atur tombol tutup
+            local closeButton = Instance.new("TextButton")
+            closeButton.Parent = frame
+            closeButton.Size = UDim2.new(0, 20, 0, 20)
+            closeButton.Position = UDim2.new(1, -20, 0, 0)
+            closeButton.BackgroundColor3 = Color3.new(1, 0, 0)
+            closeButton.Text = "X"
+            closeButton.MouseButton1Click:Connect(closeGUI)
+        end
+    })
 end
 
 
