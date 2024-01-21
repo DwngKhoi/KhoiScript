@@ -1990,6 +1990,10 @@ do
         end
     end)
 
+    
+    Tabs.Status:AddParagraph({
+        Title = "Farming Mode : ", _G.ModeFarm,
+    })
 
     local Client = game.Players.LocalPlayer
     local STOP = require(Client.PlayerScripts.CombatFramework.Particle)
@@ -2088,6 +2092,7 @@ do
         while wait() do 
             local boneframe = CFrame.new(-9508.5673828125, 142.1398468017578, 5737.3603515625)
             if _G.Auto_Bone and World3 then
+                _G.ModeFarm = "Farming Bone"
                 pcall(function()
                     if BypassTP then
                         if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - boneframe.Position).Magnitude > 2000 then
