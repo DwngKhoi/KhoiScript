@@ -23,7 +23,13 @@ function intiAppleHub()
             World2 = true
         elseif game.PlaceId == 7449423635 then
             World3 = true
-        end
+    end
+
+    game:GetService("Players").LocalPlayer.Idled:connect(function()
+        game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        wait(1)
+        game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    end)
     
         function CheckQuest() 
             MyLevel = game:GetService("Players").LocalPlayer.Data.Level.Value
@@ -1936,10 +1942,10 @@ local Tabs = {
     Main = Window:AddTab({ Title = "Main Farm", Icon = "home" }),
     TStatus = Window:AddTab({ Title = "Status", Icon = "bar-chart-2" }),
     Fruit = Window:AddTab({ Title = "Fruit", Icon = "banana" }),
-    LocalPlayer = Window:AddTab({ Title = "Local Player", Icon = "user-round" }),
+    LocalPlayer = Window:AddTab({ Title = "Local Player", Icon = "user" }),
     Travel = Window:AddTab({ Title = "Travel", Icon = "palmtree" }),
     Pvp = Window:AddTab({ Title = "Pvp-Visual", Icon = "swords" }),
-    Raid = Window:AddTab({ Title = "Raid-Material", Icon = "radiation" }),
+    Raid = Window:AddTab({ Title = "Raid-Material", Icon = "github" }),
     Shop = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }),
     GameSV = Window:AddTab({ Title = "Game-Server", Icon = "server" })
@@ -1999,6 +2005,8 @@ do
             end)
         end
     end)
+
+
     local Client = game.Players.LocalPlayer
     local STOP = require(Client.PlayerScripts.CombatFramework.Particle)
     local STOPRL = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib)
@@ -2327,6 +2335,25 @@ do
             end
         end
     end)
+
+    local ABuso = Tabs.LocalPlayer:AddToggle("MyToggle", {Title = "Auto Buso", Default = true })
+    ABuso:OnChanged(function(value)
+        _G.AUTOHAKI = value
+    end)
+
+    spawn(function()
+        while wait(.1) do
+            if _G.AUTOHAKI then 
+                if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+                    local args = {
+                        [1] = "Buso"
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                end
+            end
+        end
+    end)
+
     local WWater = Tabs.LocalPlayer:AddToggle("MyToggle", {Title = "Water Walker", Default = true })
     WWater:OnChanged(function(value)
         _G.WalkWater = value
@@ -2341,6 +2368,42 @@ do
                 end
             end)
         end
+    end)
+
+    local InfSr = Tabs.Settings:AddToggle("MyToggle", {Title = "Soru No CD", Default = false })
+    InfSr:OnChanged(function(value)
+        getgenv().InfSoru = value
+    end)
+    spawn(function()
+        while wait() do
+            pcall(function()
+                if getgenv().InfSoru and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil  then
+                    for i,v in next, getgc() do
+                        if game:GetService("Players").LocalPlayer.Character.Soru then
+                            if typeof(v) == "function" and getfenv(v).script == game:GetService("Players").LocalPlayer.Character.Soru then
+                                for i2,v2 in next, getupvalues(v) do
+                                    if typeof(v2) == "table" then
+                                        repeat wait(0.1)
+                                            v2.LastUse = 0
+                                        until not getgenv().InfSoru or game:GetService("Players").LocalPlayer.Character.Humanoid.Health <= 0
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+    local InfDash = Tabs.Settings:AddToggle("MyToggle", {Title = "Dash No CD", Default = false })
+    InfDash:OnChanged(function(value)
+        nododgecool = value
+        NoDodgeCool()
+    end)
+    local InfGeppo = Tabs.Settings:AddToggle("MyToggle", {Title = "Infinite Geppo", Default = false })
+    InfGeppo:OnChanged(function(value)
+        _G.Infgep = value
+        InfGeppo()
     end)
 
 end
