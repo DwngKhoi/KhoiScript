@@ -2283,78 +2283,6 @@ do
         end
     })
 
-    Tabs.LocalPlayer:AddButton({
-        Title = "Fly",
-        Callback = function(value)
-            _G.KFly = value
-            task.spawn(function()
-                if _G.KFly then
-                    game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').PlatformStand = true
-                    local Head = game.Players.LocalPlayer.Character:WaitForChild("Head")
-                    Head.Anchored = true
-                    CFloop = RunService.Heartbeat:Connect(function(deltaTime)
-                        local moveDirection = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').MoveDirection * (_G.Settings.Misc["Fly Speed"] * deltaTime)
-                        local headCFrame = Head.CFrame
-                        local cameraCFrame = workspace.CurrentCamera.CFrame
-                        local cameraOffset = headCFrame:ToObjectSpace(cameraCFrame).Position
-                        cameraCFrame = cameraCFrame * CFrame.new(-cameraOffset.X, -cameraOffset.Y, -cameraOffset.Z + 1)
-                        local cameraPosition = cameraCFrame.Position
-                        local headPosition = headCFrame.Position
-
-                        local objectSpaceVelocity = CFrame.new(cameraPosition, Vector3.new(headPosition.X, cameraPosition.Y, headPosition.Z)):VectorToObjectSpace(moveDirection)
-                        Head.CFrame = CFrame.new(headPosition) * (cameraCFrame - cameraPosition) * CFrame.new(objectSpaceVelocity)
-                end)
-            end)
-        end
-    })
-    Tabs.LocalPlayer:AddButton({
-        Title = "Stop Fly",
-        Callback = function(value)
-            _G.StopKFly = value
-            task.spawn(function()
-                if _G.StopKFly then
-                    if CFloop then
-                        CFloop:Disconnect()
-                        game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid').PlatformStand = false
-                        local Head = game.Players.LocalPlayer.Character:WaitForChild("Head")
-                        Head.Anchored = false
-                    end
-                end
-            end)
-        end
-    })
-
-    local NClip = Tabs.Settings:AddToggle("MyToggle", {Title = "No Clip", Default = false })
-    NClip:OnChanged(function(value)
-        _G.NOCLIP = value
-    end)
-    spawn(function()
-        while wait() do
-            if sethiddenproperty then
-                sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",100)
-            end
-            if setscriptable then
-                setscriptable(game.Players.LocalPlayer, "SimulationRadius", true)
-                game.Players.LocalPlayer.SimulationRadius = math.huge * math.huge, math.huge * math.huge * 0 / 0 * 0 / 0 * 0 / 0 * 0 / 0 * 0 / 0
-            end
-        end
-    end)
-    local WWater = Tabs.Settings:AddToggle("MyToggle", {Title = "Water Walker", Default = true })
-    WWater:OnChanged(function(value)
-        _G.WalkWater = value
-    end)
-    spawn(function()
-        while task.wait() do
-            pcall(function()
-                if _G.WalkWater then
-                    game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000,112,1000)
-                else
-                    game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000,80,1000)
-                end
-            end)
-        end
-    end)
-    
     local V3TurnOn = Tabs.Settings:AddToggle("MyToggle", {Title = "Auto Use Race V3", Default = false })
     V3TurnOn:OnChanged(function(value)
         _G.AutoAgility = value
@@ -2382,41 +2310,6 @@ do
                 end
             end)
         end
-    end)
-    local InfSr = Tabs.Settings:AddToggle("MyToggle", {Title = "Soru No CD", Default = false })
-    InfSr:OnChanged(function(value)
-        getgenv().InfSoru = value
-    end)
-    spawn(function()
-        while wait() do
-            pcall(function()
-                if getgenv().InfSoru and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") ~= nil  then
-                    for i,v in next, getgc() do
-                        if game:GetService("Players").LocalPlayer.Character.Soru then
-                            if typeof(v) == "function" and getfenv(v).script == game:GetService("Players").LocalPlayer.Character.Soru then
-                                for i2,v2 in next, getupvalues(v) do
-                                    if typeof(v2) == "table" then
-                                        repeat wait(0.1)
-                                            v2.LastUse = 0
-                                        until not getgenv().InfSoru or game:GetService("Players").LocalPlayer.Character.Humanoid.Health <= 0
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-            end)
-        end
-    end)
-    local InfDash = Tabs.Settings:AddToggle("MyToggle", {Title = "Dash No CD", Default = false })
-    InfDash:OnChanged(function(value)
-        nododgecool = value
-        NoDodgeCool()
-    end)
-    local InfGeppo = Tabs.Settings:AddToggle("MyToggle", {Title = "Infinite Geppo", Default = false })
-    InfGeppo:OnChanged(function(value)
-        _G.Infgep = value
-        InfGeppo()
     end)
 
 end
