@@ -2283,7 +2283,7 @@ do
         end
     })
 
-    local V3TurnOn = Tabs.Settings:AddToggle("MyToggle", {Title = "Auto Use Race V3", Default = false })
+    local V3TurnOn = Tabs.LocalPlayer:AddToggle("MyToggle", {Title = "Auto Use Race V3", Default = false })
     V3TurnOn:OnChanged(function(value)
         _G.AutoAgility = value
     end)
@@ -2296,7 +2296,7 @@ do
             end
         end)
     end)
-    local V4TurnOn = Tabs.Settings:AddToggle("MyToggle", {Title = "Auto Use Race V4", Default = true })
+    local V4TurnOn = Tabs.LocalPlayer:AddToggle("MyToggle", {Title = "Auto Use Race V4", Default = true })
     V4TurnOn:OnChanged(function(value)
         AutoAwakeningRace = value
     end)
@@ -2307,6 +2307,37 @@ do
                     game:GetService("VirtualInputManager"):SendKeyEvent(true,"Y",false,game)
                     wait(0.1)
                     game:GetService("VirtualInputManager"):SendKeyEvent(false,"Y",false,game)
+                end
+            end)
+        end
+    end)
+
+    local NClip = Tabs.LocalPlayer:AddToggle("MyToggle", {Title = "No Clip", Default = false })
+    NClip:OnChanged(function(value)
+        _G.NOCLIP = value
+    end)
+    spawn(function()
+        while wait() do
+            if sethiddenproperty then
+                sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",100)
+            end
+            if setscriptable then
+                setscriptable(game.Players.LocalPlayer, "SimulationRadius", true)
+                game.Players.LocalPlayer.SimulationRadius = math.huge * math.huge, math.huge * math.huge * 0 / 0 * 0 / 0 * 0 / 0 * 0 / 0 * 0 / 0
+            end
+        end
+    end)
+    local WWater = Tabs.LocalPlayer:AddToggle("MyToggle", {Title = "Water Walker", Default = true })
+    WWater:OnChanged(function(value)
+        _G.WalkWater = value
+    end)
+    spawn(function()
+        while task.wait() do
+            pcall(function()
+                if _G.WalkWater then
+                    game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000,112,1000)
+                else
+                    game:GetService("Workspace").Map["WaterBase-Plane"].Size = Vector3.new(1000,80,1000)
                 end
             end)
         end
