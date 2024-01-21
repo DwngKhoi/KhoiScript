@@ -2384,23 +2384,6 @@ do
         nododgecool = value
         NoDodgeCool()
     end)
-    local InfGeppo = Tabs.LocalPlayer:AddToggle("MyToggle", {Title = "Infinite Geppo", Default = false })
-    InfGeppo:OnChanged(function(value)
-        _G.Infgep = value
-        for i,v in next, getgc() do
-            if typeof(v) == "function" then
-                if getfenv(v).script == game.Players.LocalPlayer.Character:WaitForChild("Geppo") and _G.Infgep then
-                    for i2,v2 in next, getupvalues(v) do
-                        if tostring(v2) == "0" then
-                            repeat wait(.1)
-                                setupvalue(v,i2,0)
-                            until not _G.Infgep
-                        end
-                    end
-                end
-            end
-        end
-    end)
 
     local ClFruit = Tabs.Fruit:AddToggle("MyToggle", {Title = "Auto Collect Fruit", Default = false })
     ClFruit:OnChanged(function(value)
