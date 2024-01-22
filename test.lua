@@ -1990,6 +1990,83 @@ do
         end
     end)
 
+    Tabs.Settings:AddButton({
+        Title = "Stop All Tween",
+        Description = "Prevent Security Kick",
+        Callback = function()
+			HyperCahaya(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame)
+            _G.Clip = false
+       end
+    })
+
+    Tabs.Settings:AddParagraph({
+        Title = "Bring Mob Section",
+    })
+
+    local BrMob = Tabs.Settings:AddToggle("MyToggle", {Title = "Bring Mob", Default = true })
+
+    BrMob:OnChanged(function(Mag)
+        _G.BringMonster = Mag
+    end)
+
+    spawn(function()
+        while task.wait() do
+            pcall(function()
+                if _G.BringMonster then
+                    CheckQuest()
+                    for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                        if _G.AutoFarm and StartMagnet and v.Name == Mon and (Mon == "Factory Staff" or Mon == "Monkey" or Mon == "Dragon Crew Warrior" or Mon == "Dragon Crew Archer") and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 220 then
+                            v.HumanoidRootPart.Size = Vector3.new(50,50,50)
+                            v.HumanoidRootPart.CFrame = PosMon
+                            v.Humanoid:ChangeState(14)
+                            v.HumanoidRootPart.CanCollide = false
+                            v.Head.CanCollide = false
+                            if v.Humanoid:FindFirstChild("Animator") then
+                                v.Humanoid.Animator:Destroy()
+                            end
+                            sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.huge)
+                        elseif _G.AutoFarm and StartMagnet and v.Name == Mon and v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 and (v.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= _G.BringMode then
+                            v.HumanoidRootPart.Size = Vector3.new(50,50,50)
+                            v.HumanoidRootPart.CFrame = PosMon
+                            v.Humanoid:ChangeState(14)
+                            v.HumanoidRootPart.CanCollide = false
+                            v.Head.CanCollide = false
+                            if v.Humanoid:FindFirstChild("Animator") then
+                                v.Humanoid.Animator:Destroy()
+                            end
+                            sethiddenproperty(game:GetService("Players").LocalPlayer,"SimulationRadius",math.huge)
+                        end
+                    end
+                end
+            end)
+        end
+    end)
+
+    _G.BringMode = 300
+    local BrMobRad = Tabs.Settings:AddSlider("Slider", {
+        Title = "Bring Mob Radius",
+        Default = 300,
+        Min = 20,
+        Max = 500,
+        Rounding = 1,
+        Callback = function(value)
+            _G.BringMode = value
+        end
+    })
+
+    BrMobRad:OnChanged(function(value)
+        _G.BringMode = value
+    end)
+
+    Tabs.Settings:AddParagraph({
+        Title = "Fast Attack Section",
+    })
+
+    local AClick = Tabs.Settings:AddToggle("MyToggle", {Title = "Auto Click", Default = false })
+
+    AClick:OnChanged(function(value)
+        _G.AutoClick = value
+    end)
 
     local Client = game.Players.LocalPlayer
     local STOP = require(Client.PlayerScripts.CombatFramework.Particle)
@@ -2617,81 +2694,6 @@ do
         end
     })
 
-    FruitList = {
-        "Rocket-Rocket",
-        "Spike-Spike",
-        "Chop-Chop",
-        "Spring-Spring",
-        "Kilo-Kilo",
-        "Spin-Spin",
-        "Bird: Falcon",
-        "Smoke-Smoke",
-        "Flame-Flame",
-        "Ice-Ice",
-        "Sand-Sand",
-        "Dark-Dark",
-        "Revive-Revive",
-        "Diamond-Diamond",
-        "Light-Light",
-        "Love-Love",
-        "Rubber-Rubber",
-        "Barrier-Barrier",
-        "Magma-Magma",
-        "Door-Door",
-        "Quake-Quake",
-        "Human-Human: Buddha",
-        "String-String",
-        "Bird-Bird: Phoenix",
-        "Rumble-Rumble",
-        "Sound-Sound", 
-        "Pain-Pain", 
-        "Gravity-Gravity",
-        "Mammoth-Mammoth", 
-        "Dough-Dough",
-        "Venom-Venom",
-        "Shadow-Shadow",
-        "Control-Control",
-        "Soul-Soul",
-        "Dragon-Dragon",
-        "Leopard-Leopard",
-        "Kitsune-Kitsune"
-    }
-
-    local Remote_GetFruits = game.ReplicatedStorage:FindFirstChild("Remotes").CommF_:InvokeServer("GetFruits");
-	Table_DevilFruitSniper = {}
-	ShopDevilSell = {}
-    for i,v in next,Remote_GetFruits do
-		table.insert(Table_DevilFruitSniper,v.Name)
-		if v.OnSale then 
-			table.insert(ShopDevilSell,v.Name)
-		end
-	end
-	
-    _G.SelectFruit = ""
-    local SFruit = Tabs.Main:AddDropdown("Dropdown", {
-        Title = "Select Fruit",
-        Values = FruitList,
-        Multi = true,
-    })
-    SFruit:OnChanged(function(value)
-        _G.SelectFruit = value
-    end)
-
-    local BFruitSnipe = Tabs.Fruit:AddToggle("MyToggle", {Title = "Snipe Fruit", Description = "Auto Buy Fruit If In The List And\nYou Dont Have Fruit In That List", Default = false })
-    BFruitSnipe:OnChanged(function(value)
-        _G.AutoBuyFruitSniper = value
-    end)
-
-    spawn(function()
-        pcall(function()
-            while wait(.1) do
-                if _G.AutoBuyFruitSniper then
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("GetFruits")
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PurchaseRawFruit","_G.SelectFruit",false)
-                end 
-            end
-        end)
-    end)
 end
 
 
