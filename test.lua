@@ -1990,10 +1990,6 @@ do
         end
     end)
 
-    
-    Tabs.Status:AddParagraph({
-        Title = "Farming Mode : ", _G.ModeFarm,
-    })
 
     local Client = game.Players.LocalPlayer
     local STOP = require(Client.PlayerScripts.CombatFramework.Particle)
@@ -2092,7 +2088,6 @@ do
         while wait() do 
             local boneframe = CFrame.new(-9508.5673828125, 142.1398468017578, 5737.3603515625)
             if _G.Auto_Bone and World3 then
-                _G.ModeFarm = "Farming Bone"
                 pcall(function()
                     if BypassTP then
                         if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - boneframe.Position).Magnitude > 2000 then
@@ -2621,6 +2616,73 @@ do
             closeButton.MouseButton1Click:Connect(closeGUI)
         end
     })
+
+    FruitList = {
+        "Rocket-Rocket",
+        "Spike-Spike",
+        "Chop-Chop",
+        "Spring-Spring",
+        "Kilo-Kilo",
+        "Spin-Spin",
+        "Bird: Falcon",
+        "Smoke-Smoke",
+        "Flame-Flame",
+        "Ice-Ice",
+        "Sand-Sand",
+        "Dark-Dark",
+        "Revive-Revive",
+        "Diamond-Diamond",
+        "Light-Light",
+        "Love-Love",
+        "Rubber-Rubber",
+        "Barrier-Barrier",
+        "Magma-Magma",
+        "Door-Door",
+        "Quake-Quake",
+        "Human-Human: Buddha",
+        "String-String",
+        "Bird-Bird: Phoenix",
+        "Rumble-Rumble",
+        "Sound-Sound", 
+        "Pain-Pain", 
+        "Gravity-Gravity",
+        "Mammoth-Mammoth", 
+        "Dough-Dough",
+        "Venom-Venom",
+        "Shadow-Shadow",
+        "Control-Control",
+        "Soul-Soul",
+        "Dragon-Dragon",
+        "Leopard-Leopard",
+        "Kitsune-Kitsune"
+    }
+
+    local Remote_GetFruits = game.ReplicatedStorage:FindFirstChild("Remotes").CommF_:InvokeServer("GetFruits");
+	Table_DevilFruitSniper = {}
+	ShopDevilSell = {}
+	for i,v in next,Remote_GetFruits do
+		table.insert(Table_DevilFruitSniper,v.Name)
+		if v.OnSale then 
+			table.insert(ShopDevilSell,v.Name)
+		end
+	end
+	
+    _G.SelectFruit = ""
+    local SlFruit = Tabs.Fruit:AddDropdown("MultiDropdown", {
+        Title = "Select Fruit ",
+        Values = Table_DevilFruitSniper,
+        Multi = true,
+        Default = 0,
+    })
+
+    SlFruit:OnChanged(function(value)
+        _G.SelectFruit = value
+    end)
+
+    local BFruitSnipe = Tabs.Fruit:AddToggle("MyToggle", {Title = "Snipe Fruit", Description = "Auto Buy Fruit If In The List And\nYou Dont Have Fruit In That List", Default = false })
+    BFruitSnipe:OnChanged(function(value)
+        _G.FastAttack = value
+    end)
 end
 
 
