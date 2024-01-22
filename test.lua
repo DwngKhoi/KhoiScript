@@ -2147,7 +2147,7 @@ do
     local AttackList = {"0", "0.1", "0.15", "0.155", "0.16", "0.165", "0.17", "0.175", "0.18", "0.185"}
     _G.FastAttackDelay = "0.175"
     local FAttackDelay = Tabs.Main:AddDropdown("Dropdown", {
-        Title = "Select Weapon",
+        Title = "Select Attack Delay",
         Values = AttackList,
         Multi = false,
         Default = "0.175",
@@ -2990,7 +2990,7 @@ do
             getgenv().DontTeleportTheSameNumber = true 
             getgenv().CopytoClipboard = false
             if not game:IsLoaded() then
-                print("Game is loading waiting...")
+                print("MrKhoi Hop Service")
             end
             local maxplayers = math.huge
             local serversmaxplayer;
@@ -3030,6 +3030,13 @@ do
                 end
                 game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, goodserver)
             end
+        end
+    })
+
+    Tabs.GameSV:AddButton({
+        Title = "Rejoin",
+        Callback = function()
+			game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
         end
     })
 
