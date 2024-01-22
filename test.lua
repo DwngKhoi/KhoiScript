@@ -2660,7 +2660,7 @@ do
     local Remote_GetFruits = game.ReplicatedStorage:FindFirstChild("Remotes").CommF_:InvokeServer("GetFruits");
 	Table_DevilFruitSniper = {}
 	ShopDevilSell = {}
-	for i,v in next,Remote_GetFruits do
+    for i,v in next,Remote_GetFruits do
 		table.insert(Table_DevilFruitSniper,v.Name)
 		if v.OnSale then 
 			table.insert(ShopDevilSell,v.Name)
@@ -2670,7 +2670,7 @@ do
     _G.SelectFruit = ""
     local SlFruit = Tabs.Fruit:AddDropdown("MultiDropdown", {
         Title = "Select Fruit ",
-        Values = Table_DevilFruitSniper,
+        Values = FruitList,
         Multi = true,
         Default = 0,
     })
@@ -2681,7 +2681,18 @@ do
 
     local BFruitSnipe = Tabs.Fruit:AddToggle("MyToggle", {Title = "Snipe Fruit", Description = "Auto Buy Fruit If In The List And\nYou Dont Have Fruit In That List", Default = false })
     BFruitSnipe:OnChanged(function(value)
-        _G.FastAttack = value
+        _G.AutoBuyFruitSniper = value
+    end)
+
+    spawn(function()
+        pcall(function()
+            while wait(.1) do
+                if _G.AutoBuyFruitSniper then
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("GetFruits")
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PurchaseRawFruit","_G.SelectFruit",false)
+                end 
+            end
+        end)
     end)
 end
 
