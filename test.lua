@@ -2866,6 +2866,99 @@ do
         game:GetService("ReplicatedStorage").Effect.Container.Respawn:Destroy()
     end
     
+
+    local Disable3d = Tabs.GameSV:AddToggle("MyToggle", {Title = "Disable 3D Render", Default = false })
+    Disable3d:OnChanged(function(value)
+        _G.WhiteScreen = value
+        if _G.WhiteScreen == true then
+            game:GetService("RunService"):Set3dRenderingEnabled(false)
+        elseif _G.WhiteScreen == false then
+            game:GetService("RunService"):Set3dRenderingEnabled(true)
+        end
+    end)
+
+    local DisNotify = Tabs.GameSV:AddToggle("MyToggle", {Title = "Disable Notifications", Default = false })
+    DisNotify:OnChanged(function(value)
+        _G.Remove_trct = value
+    end)
+
+    spawn(function()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if _G.Remove_trct == true then
+                game:GetService("ReplicatedStorage").Notification:Destroy()        
+            end
+        end)
+    end)
+
+    local DisDMGCounter = Tabs.GameSV:AddToggle("MyToggle", {Title = "Disable DMG Counter", Default = false })
+    DisDMGCounter:OnChanged(function(value)
+        _G.DisDMG = value
+    end)
+
+    task.spawn(function()
+		while wait() do
+			pcall(function()
+				if _G.DisDMG then
+					game:GetService("ReplicatedStorage").Assets.GUI.DamageCounter.Enabled = false
+				else
+					game:GetService("ReplicatedStorage").Assets.GUI.DamageCounter.Enabled = true
+				end
+			end)
+		end
+	end)
+
+    local CamShaker = Tabs.GameSV:AddToggle("MyToggle", {Title = "Camera Shaker", Default = false })
+    CamShaker:OnChanged(function(value)
+        _G.CamShake = value
+    end)
+
+    task.spawn(function()
+		local Camera = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.CameraShaker)
+		while wait() do
+			pcall(function()
+				if _G.CamShake then
+					Camera.CameraShakeInstance.CameraShakeState.Inactive = 0
+				else
+					Camera.CameraShakeInstance.CameraShakeState.Inactive = 3
+				end
+			end)
+		end
+	end)
+
+    local RmSA = Tabs.GameSV:AddToggle("MyToggle", {Title = "Remove Sound & Animation", Description = "Remove Level Up, Hit Sound\nAttack Animation", Default = false })
+    RmSA:OnChanged(function(value)
+        _G.AniSound = value
+    end)
+
+    getgenv().A = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib).wrapAttackAnimationAsync 
+    getgenv().B = require(game.Players.LocalPlayer.PlayerScripts.CombatFramework.Particle).play
+    spawn(function()
+        game:GetService("RunService").RenderStepped:Connect(function()
+            if _G.AniSound == true then
+                game:GetService("ReplicatedStorage").Effect.Container.LevelUp:Destroy()
+                game:GetService("ReplicatedStorage").Util.Sound:Destroy()
+                game:GetService("ReplicatedStorage").Util.Sound.Storage.Other:FindFirstChild("LevelUp_Proxy"):Destroy()
+                game:GetService("ReplicatedStorage").Util.Sound.Storage.Other:FindFirstChild("LevelUp"):Destroy()
+                game:GetService("ReplicatedStorage").Effect.Container.Respawn:Destroy()        
+            end
+        end)
+        while wait() do
+            pcall(function()
+                require(game:GetService("ReplicatedStorage").CombatFramework.RigLib).wrapAttackAnimationAsync =function(a1,a2,a3,a4,a5)
+                    local GetBladeHits = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib).getBladeHits(a2,a3,a4)
+                    if GetBladeHits then
+                         require(game:GetService("ReplicatedStorage").CombatFramework.RigLib).play = function() end
+                        a1:Play(0.2, 0.2, 0.2)
+                        a5(GetBladeHits)
+                         require(game:GetService("ReplicatedStorage").CombatFramework.RigLib).play = getgenv().B 
+                        wait(.5)
+                        a1:Stop()
+                    end
+                end
+            end)
+        end
+    end)
+
 end
 
 
