@@ -2144,21 +2144,50 @@ do
         _G.FastAttack = value
     end)
 
-    _G.FastAttackDelay = 0.175
-    local FAttackDelay = Tabs.Settings:AddSlider("Slider", {
-        Title = "Bring Mob Radius",
-        Default = 0.175,
-        Min = 0,
-        Max = 0.2,
-        Rounding = 0.05,
-        Callback = function(value)
-            _G.FastAttackDelay = value
-        end
+    local AttackList = {"0", "0.1", "0.15", "0.155", "0.16", "0.165", "0.17", "0.175", "0.18", "0.185"}
+    _G.FastAttackDelay = "0.175"
+    local FAttackDelay = Tabs.Main:AddDropdown("Dropdown", {
+        Title = "Select Weapon",
+        Values = AttackList,
+        Multi = false,
+        Default = "0.175",
     })
-
-    FAttackDelay:OnChanged(function(value)
-        _G.FastAttackDelay = value
+    FAttackDelay:OnChanged(function(mrkhoi)
+        _G.FastAttackDelay = mrkhoi
     end)
+
+    spawn(function()
+        while wait(.1) do
+            if _G.FastAttackDelay then
+                pcall(function()
+                    if _G.FastAttackDelay == "0" then
+                        _G.FastAttackDelay = 0
+                    elseif _G.FastAttackDelay == "0.1" then
+                        _G.FastAttackDelay = 0.1
+                    elseif _G.FastAttackDelay == "0.15" then
+                        _G.FastAttackDelay = 0.15
+                    elseif _G.FastAttackDelay == "0.155" then
+                        _G.FastAttackDelay = 0.155
+                    elseif _G.FastAttackDelay == "0.16" then
+                        _G.FastAttackDelay = 0.16
+                    elseif _G.FastAttackDelay == "0.165" then
+                        _G.FastAttackDelay = 0.165
+                    elseif _G.FastAttackDelay == "0.17" then
+                        _G.FastAttackDelay = 0.17
+                    elseif _G.FastAttackDelay == "0.175" then
+                        _G.FastAttackDelay = 0.175
+                    elseif _G.FastAttackDelay == "0.18" then
+                        _G.FastAttackDelay = 0.18
+                    elseif _G.FastAttackDelay == "0.185" then
+                        _G.FastAttackDelay = 0.185
+                    elseif _G.FastAttackDelay == "0.09" then
+                        _G.FastAttackDelay = 0.09
+                    end
+                end)
+            end
+        end
+    end)
+
 
     spawn(function()
     while wait(.1) do
@@ -2170,6 +2199,58 @@ do
             end)
         end
     end
+    end)
+
+    Tabs.Settings:AddParagraph({
+        Title = "Attack Position",
+    })
+
+    PosX = 0
+    local PosXDis = Tabs.Settings:AddSlider("Slider", {
+        Title = "Position X",
+        Default = 0,
+        Min = 0,
+        Max = 60,
+        Rounding = 1,
+        Callback = function(value)
+            PosX = value
+        end
+    })
+
+    PosXDis:OnChanged(function(value)
+        PosX = value
+    end)
+
+    PosY = 0
+    local PosYDis = Tabs.Settings:AddSlider("Slider", {
+        Title = "Position Y",
+        Default = 30,
+        Min = 0,
+        Max = 60,
+        Rounding = 1,
+        Callback = function(value)
+            PosY = value
+        end
+    })
+
+    PosYDis:OnChanged(function(value)
+        PosY = value
+    end)
+
+    PosZ = 0
+    local PosZDis = Tabs.Settings:AddSlider("Slider", {
+        Title = "Position Z",
+        Default = 0,
+        Min = 0,
+        Max = 60,
+        Rounding = 1,
+        Callback = function(value)
+            PosZ = value
+        end
+    })
+
+    PosZDis:OnChanged(function(value)
+        PosZ = value
     end)
 
     local FBone = Tabs.Main:AddToggle("MyToggle", {Title = "Auto Bone", Default = false })
