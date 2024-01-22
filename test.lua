@@ -2292,7 +2292,7 @@ do
                                         v.Head.CanCollide = false 
                                         StartMagnetBoneMon = true
                                         PosMonBone = v.HumanoidRootPart.CFrame
-                                        HyperCahaya(v.HumanoidRootPart.CFrame * CFrame.new(0,45,0))
+                                        HyperCahaya(v.HumanoidRootPart.CFrame * CFrame.new(PosX,PosY,PosZ))
                                         game:GetService("VirtualUser"):CaptureController()
                                         game:GetService("VirtualUser"):Button1Down(Vector2.new(1280,672))
                                     until not _G.Auto_Bone or not v.Parent or v.Humanoid.Health <= 0
@@ -2461,6 +2461,21 @@ do
         Title = "Buy Ship",
         Callback = function()
 			game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyBoat","PirateBrigade")
+        end
+    })
+
+    Tabs.LocalPlayer:AddButton({
+        Title = "Remove Enemies Skill Stun",
+        Callback = function()
+			if game.Players.LocalPlayer.Character:FindFirstChild("Stun") then
+                game.Players.LocalPlayer.Character.Stun.Changed:connect(function()
+                    pcall(function()
+                        if game.Players.LocalPlayer.Character:FindFirstChild("Stun") then
+                            game.Players.LocalPlayer.Character.Stun.Value = 0
+                        end
+                    end)
+                end)
+            end
         end
     })
 
@@ -2791,6 +2806,66 @@ do
         end
     })
 
+    Tabs.GameSV:AddButton({
+        Title = "Copy Job ID",
+        Description = "Copy This Server Job ID",
+        Callback = function()
+			setclipboard(tostring(game.JobId))
+        end
+    })
+    local JoinJobID = Tabs.GameSV:AddInput("Input", {
+        Title = "Job ID",
+        Default = "",
+        Placeholder = "Paste And Press Enter",
+        Numeric = true,
+        Finished = true,
+        Callback = function(jobid)
+            game:GetService("TeleportService"):TeleportToPlaceInstance(game.placeId,jobid, game.Players.LocalPlayer)
+        end
+    })
+
+    local NFog = Tabs.GameSV:AddToggle("MyToggle", {Title = "No Fog", Description = "For Better Vision", Default = false })
+    NFog:OnChanged(function(value)
+        _G.NoFog = value
+    end)
+    task.spawn(function()
+        while wait() do
+            pcall(function()
+                if _G.NoFog then
+                    game.Lighting.FogEnd = math.huge
+                    if game:GetService("Lighting"):FindFirstChild("FantasySky") then game:GetService("Lighting").FantasySky:Destroy()
+                    end
+                else
+                    game.Lighting.FogEnd = 2500
+                end
+            end)
+        end
+    end)
+
+    local RmEffect = Tabs.GameSV:AddToggle("MyToggle", {Title = "Remove Effect", Default = false })
+    RmEffect:OnChanged(function(value)
+        _G.RemoveEffect = value
+    end)
+    spawn(function()
+        while wait() do
+            if _G.RemoveEffect then
+                for i,v in pairs(game:GetService("Workspace")["_WorldOrigin"]:GetChildren()) do
+                    pcall(function()
+                        if v.Name == ("CurvedRing") or v.Name == ("SlashHit") or v.Name == ("SwordSlash") or v.Name == ("SlashTail") or v.Name == ("Sounds") then
+                            v:Destroy()
+                        end
+                    end)
+                end
+            end
+        end
+    end)
+    if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Death") then
+        game:GetService("ReplicatedStorage").Effect.Container.Death:Destroy()
+    end
+    if game:GetService("ReplicatedStorage").Effect.Container:FindFirstChild("Respawn") then
+        game:GetService("ReplicatedStorage").Effect.Container.Respawn:Destroy()
+    end
+    
 end
 
 
