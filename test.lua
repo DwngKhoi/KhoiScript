@@ -1929,7 +1929,7 @@ local Tabs = {
     LocalPlayer = Window:AddTab({ Title = "Local Player", Icon = "user" }),
     Travel = Window:AddTab({ Title = "Travel", Icon = "palmtree" }),
     Pvp = Window:AddTab({ Title = "Pvp-Visual", Icon = "swords" }),
-    Raid = Window:AddTab({ Title = "Raid-Material", Icon = "fish" }),
+    Raid = Window:AddTab({ Title = "Raid-Material", Icon = "turtle" }),
     Shop = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }),
     GameSV = Window:AddTab({ Title = "Game-Server", Icon = "server" })
