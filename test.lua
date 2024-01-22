@@ -2139,12 +2139,32 @@ do
     end
     end
 
+    local FAttack = Tabs.Settings:AddToggle("MyToggle", {Title = "Fast Attack", Default = true })
+    FAttack:OnChanged(function(value)
+        _G.FastAttack = value
+    end)
+
+    _G.FastAttackDelay = 0.175
+    local FAttackDelay = Tabs.Settings:AddSlider("Slider", {
+        Title = "Bring Mob Radius",
+        Default = 0.175,
+        Min = 0,
+        Max = 0.2,
+        Rounding = 0.05,
+        Callback = function(value)
+            _G.FastAttackDelay = value
+        end
+    })
+
+    FAttackDelay:OnChanged(function(value)
+        _G.FastAttackDelay = value
+    end)
 
     spawn(function()
     while wait(.1) do
         if _G.FastAttack then
             pcall(function()
-                repeat task.wait(0.15)
+                repeat task.wait(_G.FastAttackDelay)
                     AttackHit()
                 until not _G.FastAttack
             end)
@@ -2152,10 +2172,6 @@ do
     end
     end)
 
-    local FAttack = Tabs.Settings:AddToggle("MyToggle", {Title = "Fast Attack", Default = true })
-    FAttack:OnChanged(function(value)
-        _G.FastAttack = value
-    end)
     local FBone = Tabs.Main:AddToggle("MyToggle", {Title = "Auto Bone", Default = false })
     FBone:OnChanged(function(value)
         _G.Auto_Bone = value
