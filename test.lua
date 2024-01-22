@@ -2668,14 +2668,12 @@ do
 	end
 	
     _G.SelectFruit = ""
-    local SlFruit = Tabs.Fruit:AddDropdown("MultiDropdown", {
-        Title = "Select Fruit ",
+    local SFruit = Tabs.Main:AddDropdown("Dropdown", {
+        Title = "Select Fruit",
         Values = FruitList,
         Multi = true,
-        Default = 0,
     })
-
-    SlFruit:OnChanged(function(value)
+    SFruit:OnChanged(function(value)
         _G.SelectFruit = value
     end)
 
