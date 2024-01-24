@@ -3047,7 +3047,7 @@ do
     Tabs.Main:AddButton({
         Title = "test",
         Callback = function()
-			khoitest:Title = "Khoi Dep Zai"
+		khoitest.Title = "Khoi Dep Zai",
         end
     })
 
