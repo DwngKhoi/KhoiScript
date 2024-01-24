@@ -3040,6 +3040,17 @@ do
         end
     })
 
+    local khoitest = Tabs.Main:AddParagraph({
+        Title = "Khoi : Dep Trai",
+    })
+
+    Tabs.GameSV:AddButton({
+        Title = "test",
+        Callback = function()
+			khoitest:SetValue("Khoi : Dep Zai")
+        end
+    })
+
 end
 
 
