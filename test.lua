@@ -3044,10 +3044,10 @@ do
         Title = "Khoi : Dep Trai",
     })
 
-    Tabs.GameSV:AddButton({
+    Tabs.Main:AddButton({
         Title = "test",
         Callback = function()
-			khoitest:SetValue("Khoi : Dep Zai")
+			khoitest:SetTitle("Khoi : Dep Zai")
         end
     })
 
