@@ -2,6 +2,30 @@ local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/DwngKh
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/DwngKhoi/MrKhoiUI/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/DwngKhoi/MrKhoiUI/master/Addons/InterfaceManager.lua"))()
 
+local Window = Fluent:CreateWindow({
+    Title = "MrKhoi Hub ",
+    SubTitle = "dsc.gg/mrkhoi",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main Farm", Icon = "home" }),
+    TStatus = Window:AddTab({ Title = "Status", Icon = "bar-chart-2" }),
+    Fruit = Window:AddTab({ Title = "Fruit", Icon = "banana" }),
+    LocalPlayer = Window:AddTab({ Title = "Local Player", Icon = "user" }),
+    Travel = Window:AddTab({ Title = "Travel", Icon = "palmtree" }),
+    Pvp = Window:AddTab({ Title = "Pvp-Visual", Icon = "swords" }),
+    Raid = Window:AddTab({ Title = "Raid-Material", Icon = "bone" }),
+    Shop = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }),
+    GameSV = Window:AddTab({ Title = "Game-Server", Icon = "server" })
+}
+
+do
 function intiAppleHub() 
     _G.antiscan = true
     getgenv().A = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib).wrapAttackAnimationAsync
@@ -1423,7 +1447,7 @@ function intiAppleHub()
             end)
         end
     end)
-    
+end
         
         function InfAb()
             if InfAbility then
@@ -1912,28 +1936,6 @@ function intiAppleHub()
             wait(1)
             game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
         end)
-local Window = Fluent:CreateWindow({
-    Title = "MrKhoi Hub ",
-    SubTitle = "dsc.gg/mrkhoi",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = true,
-    Theme = "Dark",
-    MinimizeKey = Enum.KeyCode.LeftControl
-})
-
-local Tabs = {
-    Main = Window:AddTab({ Title = "Main Farm", Icon = "home" }),
-    TStatus = Window:AddTab({ Title = "Status", Icon = "bar-chart-2" }),
-    Fruit = Window:AddTab({ Title = "Fruit", Icon = "banana" }),
-    LocalPlayer = Window:AddTab({ Title = "Local Player", Icon = "user" }),
-    Travel = Window:AddTab({ Title = "Travel", Icon = "palmtree" }),
-    Pvp = Window:AddTab({ Title = "Pvp-Visual", Icon = "swords" }),
-    Raid = Window:AddTab({ Title = "Raid-Material", Icon = "bone" }),
-    Shop = Window:AddTab({ Title = "Shop", Icon = "shopping-cart" }),
-    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }),
-    GameSV = Window:AddTab({ Title = "Game-Server", Icon = "server" })
-}
 
 local ScreenGui1 = Instance.new("ScreenGui")
     local ImageButton1 = Instance.new("ImageButton")
@@ -1996,7 +1998,7 @@ local ScreenGui1 = Instance.new("ScreenGui")
         end)
     end
     coroutine.wrap(ThuyTienCuti)()
-do
+
     Tabs.Main:AddParagraph({
         Title = "Only Turn On 1 Farm At The Same Time",
     })
@@ -3116,8 +3118,6 @@ do
 			game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
         end
     })
-
-end
 
 
 SaveManager:LoadAutoloadConfig()
