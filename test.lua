@@ -2149,7 +2149,6 @@ do
     BrMob:OnChanged(function(Mag)
         _G.BringMonster = Mag
     end)
-    Options.BrMob:SetValue(true)
 
     task.spawn(function()
         while task.wait() do
@@ -2277,7 +2276,6 @@ do
     FAttack:OnChanged(function(value)
         _G.FastAttack = value
     end)
-    Options.FAttack:SetValue(true)
     _G.FastAttackDelay = "0.13"
     spawn(function()
     while wait(.1) do
@@ -2343,90 +2341,12 @@ do
         PosZ = value
     end)
 
-    local FKatakuri = Tabs.Main:AddToggle("MyToggle", {Title = "Auto Katakuri", Description = "Auto Kill Cake Prince And Dough King By Default", Default = false })
-    FKatakuri:OnChanged(function(value)
-        _G.AutoKatakuri = value
-    end)
-    Options.FKatakuri:SetValue(false)
-
-    spawn(function()
-        while task.wait() do
-            if _G.AutoKatakuri then
-                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakePrinceSpawner")
-                if game.ReplicatedStorage:FindFirstChild("Cake Prince") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince") then
-                if game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince") then
-                for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
-                if _G.CakePrince and v.Name == "Cake Prince" and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-                repeat task.wait()
-                AutoHaki()
-                EquipTool(SelectWeapon)
-                Tween(v.HumanoidRootPart.CFrame * Pos)
-                v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-                v.HumanoidRootPart.Transparency = 1
-                v.Humanoid.JumpPower = 0
-                v.Humanoid.WalkSpeed = 0
-                v.HumanoidRootPart.CanCollide = false
-                FarmPos = v.HumanoidRootPart.CFrame
-                MonFarm = v.Name
-                game:GetService'VirtualUser':CaptureController()
-                game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672),workspace.CurrentCamera.CFrame)
-                BringMobs = false
-                until not _G.CakePrince or not v.Parent or v.Humanoid.Health <= 0
-                BringMobs = true
-                end
-                end
-                else
-                if game:GetService("Workspace").Map.CakeLoaf.BigMirror.Other.Transparency == 0 and (CFrame.new(-1990.672607421875, 4532.99951171875, -14973.6748046875).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude >= 2000 then
-                Tween(CFrame.new(-2151.82153, 149.315704, -12404.9053))
-                BirngMobs = true
-                end
-                end
-                else
-                if game:GetService("Workspace").Enemies:FindFirstChild("Cookie Crafter") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Guard") or game:GetService("Workspace").Enemies:FindFirstChild("Baking Staff") or game:GetService("Workspace").Enemies:FindFirstChild("Head Baker") then
-                for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
-                if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
-                if (v.Name == "Cookie Crafter" or v.Name == "Cake Guard" or v.Name == "Baking Staff" or v.Name == "Head Baker") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-                repeat task.wait()
-                AutoHaki()
-                EquipTool(SelectWeapon)
-                Tween(v.HumanoidRootPart.CFrame * Pos)
-                v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
-                v.HumanoidRootPart.Transparency = 1
-                v.Humanoid.JumpPower = 0
-                v.Humanoid.WalkSpeed = 0
-                v.HumanoidRootPart.CanCollide = false
-                FarmPos = v.HumanoidRootPart.CFrame
-                MonFarm = v.Name
-                game:GetService'VirtualUser':CaptureController()
-                game:GetService'VirtualUser':Button1Down(Vector2.new(1280, 672),workspace.CurrentCamera.CFrame)
-                until not _G.CakePrince or not v.Parent or v.Humanoid.Health <= 0
-                end
-                end
-                end
-                else
-                local cakepos = CFrame.new(-2077, 252, -12373)
-                if BypassTP then
-                if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - cakepos.Position).Magnitude > 2000 then
-                BTP(cakepos)
-                wait(3)
-                elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - cakepos.Position).Magnitude < 2000 then
-                Tween(cakepos)
-                end
-                else
-                Tween(v.HumanoidRootPart.CFrame * Pos2)
-                end
-                end
-                end
-            end
-        end
-    end)
 
     local FBone = Tabs.Main:AddToggle("MyToggle", {Title = "Auto Bone", Default = false })
     FBone:OnChanged(function(value)
         _G.Auto_Bone = value
         StopTween(_G.Auto_Bone)
     end)
-    Options.FBone:SetValue(false)
     local ThuyTienCuti =  CFrame.new(-9515.75, 174.8521728515625, 6079.40625)
     spawn(function()
         while wait() do
@@ -3139,14 +3059,14 @@ do
 	end)
 
     Tabs.GameSV:AddButton({
-        Title = "Hop Server",
+        Title = "Server Hop",
         Callback = function()
 			Hop()
         end
     })
 
     Tabs.GameSV:AddButton({
-        Title = "Hop Lower Player Server",
+        Title = "Low Player Server Hop",
         Callback = function()
 			getgenv().AutoTeleport = true
             getgenv().DontTeleportTheSameNumber = true 
