@@ -1934,8 +1934,8 @@ local Tabs = {
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" }),
     GameSV = Window:AddTab({ Title = "Game-Server", Icon = "server" })
 }
-do
-    local ScreenGui1 = Instance.new("ScreenGui")
+
+local ScreenGui1 = Instance.new("ScreenGui")
     local ImageButton1 = Instance.new("ImageButton")
     local UICorner = Instance.new("UICorner")
     ScreenGui1.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -1948,6 +1948,12 @@ do
     ImageButton1.Image = "rbxassetid://16108795672"
     UICorner.CornerRadius = UDim.new(0, 30)
     UICorner.Parent = ImageButton1
+    UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(244, 0, 0)), ColorSequenceKeypoint.new(0.32, Color3.fromRGB(146, 255, 251)), ColorSequenceKeypoint.new(0.65, Color3.fromRGB(180, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(96, 255, 231))}
+    UIGradient.Parent = ImageButton1
+
+    UIAspectRatioConstraint.Parent = ImageButton1
+    UIAspectRatioConstraint.AspectRatio = 0.988
+
     local function ThuyTienCuti()
         local script = Instance.new('LocalScript', ImageButton)
 
@@ -1990,6 +1996,7 @@ do
         end)
     end
     coroutine.wrap(ThuyTienCuti)()
+do
     Tabs.Main:AddParagraph({
         Title = "Only Turn On 1 Farm At The Same Time",
     })
