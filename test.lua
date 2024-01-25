@@ -26,17 +26,6 @@ UIGradient.Parent = ImageButton
 
 UIAspectRatioConstraint.Parent = ImageButton
 UIAspectRatioConstraint.AspectRatio = 0.988
-
-
-local function LeThuyTien()
-	local script = Instance.new('LocalScript', UIGradient)
-
-	local TweenService = game:GetService("TweenService")
-	local tweeninfo = TweenInfo.new(4, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1)
-	local tween = TweenService:Create(script.Parent, tweeninfo, {Rotation = 360})
-	tween:Play()
-end
-coroutine.wrap(LeThuyTien)()
 local function ThuyTien()
 	local script = Instance.new('LocalScript', ImageButton)
 
@@ -2167,7 +2156,7 @@ do
             if _G.BringMonster then
                 pcall(function()
                     for i,v in pairs(game.Workspace.Enemies:GetChildren()) do
-                        if not string.find(v.Name,"Boss") and v.Name == MonFarm and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= _G.BringMode then
+                        if not string.find(v.Name,"Boss") and v.Name == MonFarm and (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 350 then
                             if InMyNetWork(v.HumanoidRootPart) then
                                 if InMyNetWork(v.HumanoidRootPart) then
                                     v.HumanoidRootPart.CFrame = FarmPos
@@ -2200,39 +2189,12 @@ do
         if isnetworkowner then
             return isnetworkowner(object)
         else
-            if (object.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= _G.BringMode then
+            if (object.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 350 then
             return true
         end
             return false
         end
     end
-
-    _G.BringMode = 350
-    local BrMobRad = Tabs.Settings:AddSlider("Slider", {
-        Title = "Bring Mob Radius",
-        Default = 350,
-        Min = 20,
-        Max = 500,
-        Rounding = 1,
-        Callback = function(value)
-            _G.BringMode = value
-        end
-    })
-
-    BrMobRad:OnChanged(function(value)
-        _G.BringMode = value
-    end)
-
-    Tabs.Settings:AddParagraph({
-        Title = "Fast Attack Section",
-    })
-
-    local FAttack = Tabs.Settings:AddToggle("MyToggle", {Title = "Fast Attack", Default = true })
-    FAttack:OnChanged(function(value)
-        _G.FastAttack = value
-    end)
-    Options.FAttack:SetValue(true)
-    _G.FastAttackDelay = "0.175"
 
     local Client = game.Players.LocalPlayer
     local STOP = require(Client.PlayerScripts.CombatFramework.Particle)
@@ -2306,6 +2268,17 @@ do
     end
     local CamShake = require(game.ReplicatedStorage.Util.CameraShaker)
     CamShake:Stop()
+
+    Tabs.Settings:AddParagraph({
+        Title = "Fast Attack Section",
+    })
+
+    local FAttack = Tabs.Settings:AddToggle("MyToggle", {Title = "Fast Attack", Default = true })
+    FAttack:OnChanged(function(value)
+        _G.FastAttack = value
+    end)
+    Options.FAttack:SetValue(true)
+    _G.FastAttackDelay = "0.13"
     spawn(function()
     while wait(.1) do
         if _G.FastAttack then
