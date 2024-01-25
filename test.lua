@@ -25,7 +25,28 @@ local Tabs = {
     GameSV = Window:AddTab({ Title = "Game-Server", Icon = "server" })
 }
 
-do
+local ScreenGui1 = Instance.new("ScreenGui")
+local ImageButton1 = Instance.new("ImageButton")
+local UICorner = Instance.new("UICorner")
+local UIGradient = Instance.new("UIGradient")
+ScreenGui1.Name = "ImageButton"
+ScreenGui1.Parent = game.CoreGui
+ScreenGui1.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+ImageButton1.Parent = ScreenGui1
+ImageButton1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ImageButton1.BorderSizePixel = 0
+ImageButton1.Position = UDim2.new(0.10615778, 0, 0.16217947, 0)
+ImageButton1.Size = UDim2.new(0, 50, 0, 50)
+ImageButton1.Draggable = true
+ImageButton1.Image = "rbxassetid://16108795672"
+ImageButton1.MouseButton1Click:connect(function()
+    game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.LeftControl,false,game)
+end)
+UICorner.Parent = ImageButton1
+UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(244, 0, 0)), ColorSequenceKeypoint.new(0.32, Color3.fromRGB(146, 255, 251)), ColorSequenceKeypoint.new(0.65, Color3.fromRGB(180, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(96, 255, 231))}
+UIGradient.Parent = ImageButton1
+
 function intiAppleHub() 
     _G.antiscan = true
     getgenv().A = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib).wrapAttackAnimationAsync
@@ -1447,7 +1468,7 @@ function intiAppleHub()
             end)
         end
     end)
-end
+    
         
         function InfAb()
             if InfAbility then
@@ -1936,69 +1957,7 @@ end
             wait(1)
             game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
         end)
-
-local ScreenGui1 = Instance.new("ScreenGui")
-    local ImageButton1 = Instance.new("ImageButton")
-    local UICorner = Instance.new("UICorner")
-    ScreenGui1.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    ScreenGui1.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-    ImageButton1.Parent = ScreenGui1
-    ImageButton1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    ImageButton1.Position = UDim2.new(0.10615778, 0, 0.16217947, 0)
-    ImageButton1.Size = UDim2.new(0.0627121851, 0, 0.107579626, 0)
-    ImageButton1.Image = "rbxassetid://16108795672"
-    UICorner.CornerRadius = UDim.new(0, 30)
-    UICorner.Parent = ImageButton1
-    UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(244, 0, 0)), ColorSequenceKeypoint.new(0.32, Color3.fromRGB(146, 255, 251)), ColorSequenceKeypoint.new(0.65, Color3.fromRGB(180, 255, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(96, 255, 231))}
-    UIGradient.Parent = ImageButton1
-
-    UIAspectRatioConstraint.Parent = ImageButton1
-    UIAspectRatioConstraint.AspectRatio = 0.988
-
-    local function ThuyTienCuti()
-        local script = Instance.new('LocalScript', ImageButton)
-
-        local UIS = game:GetService('UserInputService')
-        local frame = script.Parent
-        local dragToggle = nil
-        local dragSpeed = 0.5
-        local dragStart = nil
-        local startPos = nil
-        
-        local function updateInput(input)
-            local delta = input.Position - dragStart
-            local position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
-                startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-            game:GetService('TweenService'):Create(frame, TweenInfo.new(dragSpeed), {Position = position}):Play()
-        end
-        
-        frame.InputBegan:Connect(function(input)
-            if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) then 
-                dragToggle = true
-                dragStart = input.Position
-                startPos = frame.Position
-                input.Changed:Connect(function()
-                    if input.UserInputState == Enum.UserInputState.End then
-                        dragToggle = false
-                    end
-                end)
-            end
-        end)
-        
-        UIS.InputChanged:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-                if dragToggle then
-                    updateInput(input)
-                end
-            end
-        end)
-        script.Parent.MouseButton1Click:Connect(function()
-            game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.LeftControl,false,game)
-        end)
-    end
-    coroutine.wrap(ThuyTienCuti)()
-
+do
     Tabs.Main:AddParagraph({
         Title = "Only Turn On 1 Farm At The Same Time",
     })
@@ -3118,6 +3077,8 @@ local ScreenGui1 = Instance.new("ScreenGui")
 			game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
         end
     })
+
+end
 
 
 SaveManager:LoadAutoloadConfig()
